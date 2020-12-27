@@ -6,9 +6,13 @@ use App\Post;
 use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
+    $body = $faker->text;
+
+
     return [
         'title' => $faker->text(100),
-        'body' => $faker->text,
+        'body' => $body,
+        'synopsis' => substr($body, 0, 200) . '...',
         'user_id' => App\User::inRandomOrder()->first()->id,
         'page_id' => App\Page::inRandomOrder()->first()->id
     ];
