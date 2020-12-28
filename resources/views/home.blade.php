@@ -4,20 +4,17 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            @foreach ($posts as $post)
+            @foreach ($pages as $page)
                 <div class="card mb-4">
-                    <a href="{{ route('posts.show', ['id' => $post->id]) }}">
-                        <div class="card-header">
-                            {{ $post->title }}
-                        </div>
-                    </a>
-                    <div class="card-body">
-                        {{ $post->synopsis }}
+                     <div class="card-body">
+                        <h5 class="card-title">{{ $page->title}}</h5>
+                        <p class="card-text"> {{ $page->description }} </p>
+                        <a href="{{ route('pages.show', ['id' => $page->id]) }}" class="btn btn-primary">Go to page</a>
                     </div>
                 </div>
             @endforeach
 
-            {!! $posts->render() !!}
+            {!! $pages->render() !!}
         </div>
     </div>
 </div>

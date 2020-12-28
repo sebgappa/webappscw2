@@ -12,7 +12,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         factory(App\User::class, 20)->create()->each(function($user) {
-            $user->pages()->attach(factory(App\Page::class)->create()->id);
+            $user->pages()->attach(factory(App\Page::class, 10)->create());
         });
     }
 }

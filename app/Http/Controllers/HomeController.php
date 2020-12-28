@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Post;
+use App\Page;
+use App\User;
 
 class HomeController extends Controller
 {
@@ -25,8 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::paginate(10);
+        $user = User::where('id', Auth::user()->id)->first();
+        $pageIds = $user->pages->pluck('id')->toArray();
+        $paginatedPages = Page::whereIn('id', $pageIds)->paginate(10);
 
-        return view('home', ['posts' => $posts]);
+        return view('home', ['pages' => $paginatedPages]);
     }
 }

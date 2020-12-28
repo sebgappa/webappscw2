@@ -12,7 +12,7 @@ $factory->define(Post::class, function (Faker $faker) {
     return [
         'title' => $faker->text(100),
         'body' => $body,
-        'synopsis' => substr($body, 0, 200) . '...',
+        'synopsis' => substr($body, 0, 150) . '...',
         'user_id' => App\User::inRandomOrder()->first()->id,
         'page_id' => App\Page::inRandomOrder()->first()->id
     ];
