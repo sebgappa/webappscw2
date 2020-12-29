@@ -1921,12 +1921,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['userId', 'postId'],
+  props: ['user', 'postId'],
   data: function data() {
     return {
       form: new Form({
         body: '',
-        user_id: this.userId,
+        user_id: this.user.id,
         post_id: this.postId
       })
     };
