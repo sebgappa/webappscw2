@@ -20,7 +20,7 @@
             </button>
             <div class="pt-2">
                 <div class="collapse" id="commentsList">
-                    <div v-for="comment in comments" :key="comment.id">
+                    <div v-for="comment in comments.data" :key="comment.id">
                         <div class="pt-3">
                             <div class="card card-header">
                                 {{ comment.username }}
@@ -29,6 +29,9 @@
                                 {{ comment.body }}
                             </div>
                         </div>
+                    </div>
+                    <div class="pt-2">
+                        <pagination :data="comments" v-on:pagination-change-page="getComments"></pagination>
                     </div>
                 </div>
             </div>
@@ -41,7 +44,7 @@
         props:['userId', 'postId'],
         data() {
             return {
-                comments: '',
+                comments: {},
 
                 form: new Form({
                     body: '',
@@ -50,9 +53,14 @@
         },
 
         methods: {
-            getComments() {
-                axios.get(`/api/posts/${this.postId}/comment`).then((res) => {
-                    this.comments = res.data
+            getComments(page) {
+            
+                if (typeof page == 'undefined') {
+                    page = 1;
+                }
+
+                axios.get(`/api/posts/${this.postId}/comment?page=` + page).then((res) => {
+                    this.comments = res.data;
                 }).catch((error) => {
                     console.log(error)
                 })

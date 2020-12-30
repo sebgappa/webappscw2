@@ -15,7 +15,7 @@ class CommentController extends Controller
      */
     public function index($postId)
     {
-        $comments = Comment::where('post_id', $postId)->latest()->get(); 
+        $comments = Comment::where('post_id', $postId)->latest()->paginate(10); 
 
         foreach ($comments as $comment) {
             $comment->username = User::find($comment->user_id)->name;
