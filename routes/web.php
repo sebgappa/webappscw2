@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/account', 'AccountController@index')->name('account');
 
-    Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
+    Route::get('/pages/{pageId}/posts/{postId}', 'PostController@view')->name('post.show');
 
-    Route::get('/pages/{id}', 'PagesController@show')->name('pages.show');
+    Route::get('/pages/{id}', 'PageController@show')->name('page.show');
 });

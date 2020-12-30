@@ -10,7 +10,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{ $post->title}}</h5>
                         <p class="card-text"> {{ $post->synopsis }} </p>
-                        <a href="{{ route('posts.show', ['id' => $post->id]) }}" class="btn btn-primary">Go to post</a>
+                        <a href="{{ route('post.show', ['pageId' => $page->id, 'postId' => $post->id]) }}" class="btn btn-primary">Go to post</a>
                     </div>
                 </div>
             @endforeach

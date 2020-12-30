@@ -20,4 +20,6 @@ Route::middleware(['auth:api'])->group(function() {
     });
 
     Route::resource('posts/{postId}/comment', 'CommentController');
+
+    Route::resource('pages/{pageId}/posts', 'PostController');
 });
