@@ -19,10 +19,12 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/account', 'AccountController@index')->name('account');
+    Route::get('/account', 'AccountController@index')->name('account');
 
-Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
+    Route::get('/posts/{id}', 'PostController@show')->name('posts.show');
 
-Route::get('/pages/{id}', 'PagesController@show')->name('pages.show');
+    Route::get('/pages/{id}', 'PagesController@show')->name('pages.show');
+});

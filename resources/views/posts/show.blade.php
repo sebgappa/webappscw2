@@ -14,5 +14,10 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <comment-component :user-id="{{ Auth::user()->id }}" :post-id="{{ $post->id }}"></comment-component>
+        </div>
+    </div>
 </div>
 @endsection
