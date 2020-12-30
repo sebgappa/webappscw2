@@ -12,6 +12,10 @@ class PageController extends Controller
         $page = Page::where('id', $id)->get()->first();
         $posts = Post::where('page_id', $id)->paginate(10);
 
+        if($page == null) {
+            abort('404');
+        };
+
         return view('page.show', ['page' => $page, 'posts' => $posts]);
     }
 }
