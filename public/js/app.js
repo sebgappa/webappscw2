@@ -1920,27 +1920,70 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user', 'postId'],
+  props: ['userId', 'postId'],
   data: function data() {
     return {
+      comments: '',
       form: new Form({
-        body: '',
-        user_id: this.user.id,
-        post_id: this.postId
+        body: ''
       })
     };
   },
   methods: {
+    getComments: function getComments() {
+      var _this = this;
+
+      axios.get("/api/posts/".concat(this.postId, "/comment")).then(function (res) {
+        _this.comments = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     saveComment: function saveComment() {
+      var _this2 = this;
+
       var data = new FormData();
       data.append('body', this.form.body);
-      data.append('user_id', this.form.user_id);
-      data.append('post_id', this.form.post_id);
-      axios.post('/api/comment', data);
+      data.append('user_id', this.userId);
+      axios.post("/api/posts/".concat(this.postId, "/comment"), data).then(function (res) {
+        _this2.form.reset();
+
+        _this2.getComments();
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
-  mounted: function mounted() {}
+  mounted: function mounted() {
+    this.getComments();
+  }
 });
 
 /***/ }),
@@ -37579,7 +37622,53 @@ var render = function() {
           [_vm._v("Send")]
         )
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "pt-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-secondary dropdown-toggle",
+          attrs: {
+            type: "button",
+            "data-toggle": "collapse",
+            "data-target": "#commentsList",
+            "aria-expanded": "false",
+            "aria-controls": "commentsList"
+          }
+        },
+        [_vm._v("\n            View comments\n        ")]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "pt-2" }, [
+        _c(
+          "div",
+          { staticClass: "collapse", attrs: { id: "commentsList" } },
+          _vm._l(_vm.comments, function(comment) {
+            return _c("div", { key: comment.id }, [
+              _c("div", { staticClass: "pt-3" }, [
+                _c("div", { staticClass: "card card-header" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(comment.username) +
+                      "\n                        "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "card card-body" }, [
+                  _vm._v(
+                    "\n                            " +
+                      _vm._s(comment.body) +
+                      "\n                        "
+                  )
+                ])
+              ])
+            ])
+          }),
+          0
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = []

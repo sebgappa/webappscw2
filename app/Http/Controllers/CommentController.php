@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\User;
 
 class CommentController extends Controller
 {
@@ -12,9 +13,15 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($postId)
     {
-        //
+        $comments = Comment::where('post_id', $postId)->latest()->get(); 
+
+        foreach ($comments as $comment) {
+            $comment->username = User::find($comment->user_id)->name;
+        };
+
+        return response()->json($comments, 200);
     }
 
     /**
@@ -33,9 +40,14 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $postId)
     {
-        Comment::create($request->all());
+        $comment = new Comment;
+        $comment->body = $request->body;
+        $comment->user_id = $request->user_id;
+        $comment->post_id = $postId;
+
+        $comment->save();
     }
 
     /**

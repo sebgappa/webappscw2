@@ -19,5 +19,5 @@ Route::middleware(['auth:api'])->group(function() {
         return $request->user();
     });
 
-    Route::resource('comment', 'CommentController');
+    Route::resource('posts/{postId}/comment', 'CommentController');
 });
