@@ -3,9 +3,10 @@
         <form @submit.prevent="saveComment">
             <div class="form-group">
                 <label for="comment">Your Comment:</label>
-                <textarea v-model="form.body" name="comment" class="form-control" rows="3"></textarea>
+                <textarea v-model="form.body" :class="{'is-invalid' : form.errors.has('body')}" name="comment" class="form-control" rows="3" @keydown="form.errors.clear('body')"></textarea>
             </div>
             <button type="submit" class="btn btn-primary">Send</button>
+            <span class="text-danger pt-2 pl-2" v-if="form.errors.has('body')" v-text="form.errors.get('body')"></span>
         </form>
 
         <div class="pt-3">
@@ -75,7 +76,7 @@
                     this.form.reset()
                     this.getComments()
                 }).catch((error) => {
-                    console.log(error)
+                    this.form.errors.record(error.response.data.errors)
                 })
             }
         },
