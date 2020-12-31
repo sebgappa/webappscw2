@@ -12,7 +12,9 @@ class PagesTableSeeder extends Seeder
     public function run()
     {
         factory(App\Page::class, 5)->create()->each(function($page) {
-            $page->users()->attach(App\User::all()->random()->id);
+            for ($i = 0; $i < rand(1,5); $i++) {
+                $page->users()->attach(factory(App\User::class, 1)->create());
+            }
         });;
     }
 }
