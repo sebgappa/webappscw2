@@ -1949,6 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId', 'postId'],
   data: function data() {
@@ -1984,7 +1985,7 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.getComments();
       })["catch"](function (error) {
-        console.log(error);
+        _this2.form.errors.record(error.response.data.errors);
       });
     }
   },
@@ -38248,9 +38249,13 @@ var render = function() {
               }
             ],
             staticClass: "form-control",
+            class: { "is-invalid": _vm.form.errors.has("body") },
             attrs: { name: "comment", rows: "3" },
             domProps: { value: _vm.form.body },
             on: {
+              keydown: function($event) {
+                return _vm.form.errors.clear("body")
+              },
               input: function($event) {
                 if ($event.target.composing) {
                   return
@@ -38265,7 +38270,14 @@ var render = function() {
           "button",
           { staticClass: "btn btn-primary", attrs: { type: "submit" } },
           [_vm._v("Send")]
-        )
+        ),
+        _vm._v(" "),
+        _vm.form.errors.has("body")
+          ? _c("span", {
+              staticClass: "text-danger pt-2 pl-2",
+              domProps: { textContent: _vm._s(_vm.form.errors.get("body")) }
+            })
+          : _vm._e()
       ]
     ),
     _vm._v(" "),

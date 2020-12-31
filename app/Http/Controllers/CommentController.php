@@ -42,6 +42,13 @@ class CommentController extends Controller
      */
     public function store(Request $request, $postId)
     {
+        $this->validate($request, [
+            'body' => 'required|max:300'
+        ],
+        [
+            'body.required' => 'Your comment must not be empty.'
+        ]);
+
         $comment = new Comment;
         $comment->body = $request->body;
         $comment->user_id = $request->user_id;
