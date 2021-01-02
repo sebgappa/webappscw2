@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Page;
+use App\User;
 
 class PageController extends Controller
 {
@@ -47,7 +48,6 @@ class PageController extends Controller
     public function show($id)
     {
         $page = Page::where('id', $id)->get()->first();
-        $page->users;
 
         return response()->json($page, '200');
     }
@@ -94,5 +94,13 @@ class PageController extends Controller
         };
 
         return view('page.show', ['pageId' => $id]);
+    }
+
+    public function getPageUsers($pageId) {
+        $page = Page::where('id', $pageId)->get()->first();
+        $userIds = $page->users->pluck('id')->toArray();
+        $paginatedUsers = User::whereIn('id', $userIds)->paginate(5);
+
+        return response()->json($paginatedUsers, '200');
     }
 }

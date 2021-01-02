@@ -24,4 +24,6 @@ Route::middleware(['auth:api'])->group(function() {
     Route::resource('pages/{pageId}/posts', 'PostController');
 
     Route::resource('pages', 'PageController');
+
+    Route::get('pages/{pageId}/users', 'PageController@getPageUsers');
 });

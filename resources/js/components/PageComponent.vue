@@ -8,6 +8,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title}}</h5>
                                 <p class="card-text"> {{ post.synopsis }} </p>
+                                <p class="card-text"> Posted by {{ post.username}} </p>
                                 <a :href="'/pages/' + page.id + '/posts/' + post.id" class="btn btn-primary">Go to post</a>
                             </div>
                         </div>
@@ -29,9 +30,12 @@
                     <div class="pt-2">
                         <div class="collapse" id="membersList">
                             <div class="list-group">
-                                <div v-for="user in page.users" :key="user.id">
+                                <div v-for="user in users.data" :key="user.id">
                                     <li class="list-group-item"> {{user.name}} </li>
                                 </div>
+                            </div>
+                            <div class="pt-2">
+                                <pagination :data="users" v-on:pagination-change-page="getPageUsers"></pagination>
                             </div>
                         </div>
                     </div>
@@ -46,11 +50,24 @@
         data() {
             return {
                 page: '',
-                posts: {}
+                posts: {},
+                users: {}
             }
         },
 
         methods: {
+            getPageUsers(page) {
+                if (typeof page == 'undefined') {
+                    page = 1;
+                }
+
+                axios.get(`/api/pages/${this.pageId}/users?page=` + page).then((res) => {
+                    this.users = res.data
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
             getPage() {
                 axios.get(`/api/pages/${this.pageId}`).then((res) => {
                     this.page = res.data
@@ -75,6 +92,7 @@
         mounted() {
             this.getPage();
             this.getPosts();
+            this.getPageUsers();
         }
     }
 </script>

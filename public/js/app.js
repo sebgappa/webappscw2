@@ -2047,33 +2047,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['pageId'],
   data: function data() {
     return {
       page: '',
-      posts: {}
+      posts: {},
+      users: {}
     };
   },
   methods: {
-    getPage: function getPage() {
+    getPageUsers: function getPageUsers(page) {
       var _this = this;
 
+      if (typeof page == 'undefined') {
+        page = 1;
+      }
+
+      axios.get("/api/pages/".concat(this.pageId, "/users?page=") + page).then(function (res) {
+        _this.users = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getPage: function getPage() {
+      var _this2 = this;
+
       axios.get("/api/pages/".concat(this.pageId)).then(function (res) {
-        _this.page = res.data;
+        _this2.page = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     getPosts: function getPosts(page) {
-      var _this2 = this;
+      var _this3 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
       axios.get("/api/pages/".concat(this.pageId, "/posts?page=") + page).then(function (res) {
-        _this2.posts = res.data;
+        _this3.posts = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2082,6 +2100,7 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     this.getPage();
     this.getPosts();
+    this.getPageUsers();
   }
 });
 
@@ -38475,6 +38494,10 @@ var render = function() {
                     _vm._v(" " + _vm._s(post.synopsis) + " ")
                   ]),
                   _vm._v(" "),
+                  _c("p", { staticClass: "card-text" }, [
+                    _vm._v(" Posted by " + _vm._s(post.username) + " ")
+                  ]),
+                  _vm._v(" "),
                   _c(
                     "a",
                     {
@@ -38526,7 +38549,7 @@ var render = function() {
             _c(
               "div",
               { staticClass: "list-group" },
-              _vm._l(_vm.page.users, function(user) {
+              _vm._l(_vm.users.data, function(user) {
                 return _c("div", { key: user.id }, [
                   _c("li", { staticClass: "list-group-item" }, [
                     _vm._v(" " + _vm._s(user.name) + " ")
@@ -38534,6 +38557,18 @@ var render = function() {
                 ])
               }),
               0
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "pt-2" },
+              [
+                _c("pagination", {
+                  attrs: { data: _vm.users },
+                  on: { "pagination-change-page": _vm.getPageUsers }
+                })
+              ],
+              1
             )
           ])
         ])
