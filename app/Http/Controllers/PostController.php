@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use App\User;
 
 class PostController extends Controller
 {
@@ -12,9 +13,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($pageId)
     {
-        //
+        $posts = Post::where('page_id', $pageId)->latest()->paginate(10);
+
+        foreach ($posts as $post) {
+            $post->username = User::find($post->user_id)->name;
+        };
+        
+        return response()->json($posts, '200');
     }
 
     /**

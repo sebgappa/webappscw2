@@ -26,5 +26,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/pages/{pageId}/posts/{postId}', 'PostController@view')->name('post.show');
 
-    Route::get('/pages/{id}', 'PageController@show')->name('page.show');
+    Route::get('/pages/{id}', 'PageController@view')->name('page.show');
 });
