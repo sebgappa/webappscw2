@@ -48,6 +48,7 @@ class PageController extends Controller
     public function show($id)
     {
         $page = Page::where('id', $id)->get()->first();
+        $page->username = User::find($page->user_id)->name; 
 
         return response()->json($page, '200');
     }
@@ -93,7 +94,7 @@ class PageController extends Controller
             abort('404');
         };
 
-        return view('page.show', ['pageId' => $id]);
+        return view('page', ['pageId' => $id]);
     }
 
     public function getPageUsers($pageId) {

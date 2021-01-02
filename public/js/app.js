@@ -2196,30 +2196,88 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId'],
   data: function data() {
     return {
-      pages: {}
+      memberPages: {},
+      createdPages: {}
     };
   },
   methods: {
-    getPages: function getPages(page) {
+    getMemberPages: function getMemberPages(page) {
       var _this = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
-      axios.get("/api/users/".concat(this.userId, "/pages?page=") + page).then(function (res) {
-        _this.pages = res.data;
+      axios.get("/api/users/".concat(this.userId, "/pages/member?page=") + page).then(function (res) {
+        _this.memberPages = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getCreatedPages: function getCreatedPages(page) {
+      var _this2 = this;
+
+      if (typeof page == 'undefined') {
+        page = 1;
+      }
+
+      axios.get("/api/users/".concat(this.userId, "/pages/creator?page=") + page).then(function (res) {
+        _this2.createdPages = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     }
   },
   mounted: function mounted() {
-    this.getPages();
+    this.getMemberPages();
+    this.getCreatedPages();
   }
 });
 
@@ -2234,6 +2292,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
 //
 //
 //
@@ -38960,48 +39019,139 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _vm._l(_vm.pages.data, function(page) {
-        return _c("div", { key: page.id }, [
-          _c("div", { staticClass: "card mb-4" }, [
-            _c("div", { staticClass: "card-body" }, [
-              _c("h5", { staticClass: "card-title" }, [
-                _vm._v(_vm._s(page.title))
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "card-text" }, [
-                _vm._v(" " + _vm._s(page.description) + " ")
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass: "btn btn-primary",
-                  attrs: { href: "/pages/" + page.id }
-                },
-                [_vm._v("Go to page")]
-              )
-            ])
-          ])
-        ])
-      }),
+  return _c("div", { staticClass: "row" }, [
+    _c("div", { staticClass: "col-12" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary dropdown-toggle",
+          attrs: {
+            type: "button",
+            "data-toggle": "collapse",
+            "data-target": "#memberPages",
+            "aria-expanded": "true",
+            "aria-controls": "memberPages"
+          }
+        },
+        [_vm._v("\n            Pages you're a part of\n        ")]
+      ),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "pt-2" },
+        { staticClass: "collapse show", attrs: { id: "memberPages" } },
         [
-          _c("pagination", {
-            attrs: { data: _vm.pages },
-            on: { "pagination-change-page": _vm.getPages }
-          })
+          _vm._l(_vm.memberPages.data, function(page) {
+            return _c("div", { key: page.id }, [
+              _c("div", { staticClass: "pt-3" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h5", { staticClass: "card-title" }, [
+                      _vm._v(_vm._s(page.title))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(" " + _vm._s(page.description) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      { staticClass: "card-text font-weight-bold font-italic" },
+                      [_vm._v(" Created by " + _vm._s(page.username) + " ")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { href: "/pages/" + page.id }
+                      },
+                      [_vm._v("Go to page")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pt-2" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.pages },
+                on: { "pagination-change-page": _vm.getPages }
+              })
+            ],
+            1
+          )
         ],
-        1
+        2
       )
-    ],
-    2
-  )
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-12 pt-3" }, [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-primary dropdown-toggle",
+          attrs: {
+            type: "button",
+            "data-toggle": "collapse",
+            "data-target": "#createdPages",
+            "aria-expanded": "true",
+            "aria-controls": "createdPages"
+          }
+        },
+        [_vm._v("\n            Pages you've created\n        ")]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "collapse show", attrs: { id: "createdPages" } },
+        [
+          _vm._l(_vm.createdPages.data, function(page) {
+            return _c("div", { key: page.id }, [
+              _c("div", { staticClass: "pt-3" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-body" }, [
+                    _c("h5", { staticClass: "card-title" }, [
+                      _vm._v(_vm._s(page.title))
+                    ]),
+                    _vm._v(" "),
+                    _c("p", { staticClass: "card-text" }, [
+                      _vm._v(" " + _vm._s(page.description) + " ")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-primary",
+                        attrs: { href: "/pages/" + page.id }
+                      },
+                      [_vm._v("Go to page")]
+                    )
+                  ])
+                ])
+              ])
+            ])
+          }),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "pt-2" },
+            [
+              _c("pagination", {
+                attrs: { data: _vm.pages },
+                on: { "pagination-change-page": _vm.getPages }
+              })
+            ],
+            1
+          )
+        ],
+        2
+      )
+    ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -39028,6 +39178,10 @@ var render = function() {
   return _c("div", [
     _c("h3", [_vm._v(" " + _vm._s(_vm.page.title) + " ")]),
     _vm._v(" "),
+    _c("h5", { staticClass: "font-weight-bold font-italic" }, [
+      _vm._v(" Created by " + _vm._s(_vm.page.username))
+    ]),
+    _vm._v(" "),
     _c("div", { staticClass: "row pt-4" }, [
       _c(
         "div",
@@ -39045,9 +39199,11 @@ var render = function() {
                     _vm._v(" " + _vm._s(post.synopsis) + " ")
                   ]),
                   _vm._v(" "),
-                  _c("p", { staticClass: "card-text" }, [
-                    _vm._v(" Posted by " + _vm._s(post.username) + " ")
-                  ]),
+                  _c(
+                    "p",
+                    { staticClass: "card-text font-weight-bold font-italic" },
+                    [_vm._v(" Posted by " + _vm._s(post.username) + " ")]
+                  ),
                   _vm._v(" "),
                   _c(
                     "a",

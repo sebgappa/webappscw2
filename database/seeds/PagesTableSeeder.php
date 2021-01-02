@@ -13,7 +13,7 @@ class PagesTableSeeder extends Seeder
     {
         factory(App\Page::class, 5)->create()->each(function($page) {
             for ($i = 0; $i < rand(1,5); $i++) {
-                $page->users()->attach(factory(App\User::class, 1)->create());
+                $page->users()->attach(factory(App\User::class)->create());
             }
         });;
     }
