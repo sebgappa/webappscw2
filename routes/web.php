@@ -20,9 +20,13 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home', function() {
+        return view('home');
+    })->name('home');
 
-    Route::get('/account', 'AccountController@index')->name('account');
+    Route::get('/account', function() {
+        return view('account');
+    })->name('account');
 
     Route::get('/pages/{pageId}/posts/{postId}', 'PostController@view')->name('post.show');
 

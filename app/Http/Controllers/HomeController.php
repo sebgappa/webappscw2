@@ -24,12 +24,4 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
-    {
-        $user = User::where('id', Auth::user()->id)->first();
-        $pageIds = $user->pages->pluck('id')->toArray();
-        $paginatedPages = Page::whereIn('id', $pageIds)->paginate(5);
-
-        return view('home', ['pages' => $paginatedPages]);
-    }
 }
