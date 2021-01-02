@@ -5,6 +5,7 @@
             </div>
             <div class="card-body">
                 {{ this.post.body }}
+                <p class="card-text pt-3 font-weight-bold font-italic"> Posted by {{ post.username}} </p>
             </div>
         </div>
 </template>

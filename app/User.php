@@ -12,7 +12,7 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     public function posts() {
-        return $this->hasMany('App\Posts');
+        return $this->hasMany('App\Post');
     }
 
     public function comments() {

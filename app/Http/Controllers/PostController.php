@@ -53,7 +53,8 @@ class PostController extends Controller
      */
     public function show($pageId, $id)
     {
-        $post = Post::where(['id' => $id, 'page_id' => $pageId])->get()->first(); 
+        $post = Post::where(['id' => $id, 'page_id' => $pageId])->get()->first();
+        $post->username = User::find($post->user_id)->name; 
         
         return response()->json($post, '200');
     }

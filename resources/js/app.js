@@ -24,6 +24,7 @@ window.Form = Form;
 Vue.component('comment-component', require('./components/CommentComponent.vue').default);
 Vue.component('post-component', require('./components/PostComponent.vue').default);
 Vue.component('page-component', require('./components/PageComponent.vue').default);
+Vue.component('account-component', require('./components/AccountComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'))
 
 /**
