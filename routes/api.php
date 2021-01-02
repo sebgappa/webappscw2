@@ -27,7 +27,9 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::get('pages/{pageId}/users', 'PageController@getPageUsers');
 
-    Route::get('users/{id}/pages', 'UserController@pages');
+    Route::get('users/{id}/pages/member', 'UserController@memberPages');
+
+    Route::get('users/{id}/pages/creator', 'UserController@createdPages');
 
     Route::get('users/{id}/posts', 'UserController@posts');
 

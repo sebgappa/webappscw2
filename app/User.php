@@ -27,6 +27,10 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Page');
     }
 
+    public function createdPages() {
+        return $this->hasMany('App\Page');
+    }
+
     /**
      * The attributes that are mass assignable.
      *

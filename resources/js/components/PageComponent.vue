@@ -1,6 +1,7 @@
 <template>
         <div>
             <h3> {{ page.title }} </h3>
+            <h5 class="font-weight-bold font-italic"> Created by {{page.username}}</h5>
             <div class="row pt-4">
                 <div class="col-8">
                     <div v-for="post in posts.data" :key="post.id">
@@ -8,7 +9,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title}}</h5>
                                 <p class="card-text"> {{ post.synopsis }} </p>
-                                <p class="card-text"> Posted by {{ post.username}} </p>
+                                <p class="card-text font-weight-bold font-italic"> Posted by {{ post.username}} </p>
                                 <a :href="'/pages/' + page.id + '/posts/' + post.id" class="btn btn-primary">Go to post</a>
                             </div>
                         </div>
