@@ -28,9 +28,12 @@ Route::middleware(['auth'])->group(function () {
         return view('account');
     })->name('account');
 
-    Route::get('/pages/{pageId}/posts/{postId}', 'PostController@view')->name('post.show');
+    Route::get('page/create', 'PageController@create');
 
-    Route::get('/pages/{id}', 'PageController@view')->name('page.show');
+    Route::get('/page/{pageId}/post/create', 'PostController@create');
 
-    Route::resource('page', 'PageController');
+    Route::get('/page/{pageId}/post/{postId}', 'PostController@view')->name('post.show');
+
+    Route::get('/page/{id}', 'PageController@view')->name('page.show');
+
 });

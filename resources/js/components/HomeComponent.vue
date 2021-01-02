@@ -26,7 +26,7 @@
                                     <h5 class="card-title">{{ page.title}}</h5>
                                     <p class="card-text"> {{ page.description }} </p>
                                     <p class="card-text font-weight-bold font-italic"> Created by {{ page.username}} </p>
-                                    <a :href="'/pages/' + page.id" class="btn btn-primary">Go to page</a>
+                                    <a :href="'/page/' + page.id" class="btn btn-primary">Go to page</a>
                                 </div>
                             </div>
                         </div>
@@ -82,7 +82,7 @@
                     page = 1;
                 }
 
-                axios.get(`/api/users/${this.userId}/pages/member?page=` + page).then((res) => {
+                axios.get(`/api/user/${this.userId}/page/member?page=` + page).then((res) => {
                     this.memberPages = res.data;
                 }).catch((error) => {
                     console.log(error)
@@ -94,7 +94,7 @@
                     page = 1;
                 }
 
-                axios.get(`/api/users/${this.userId}/pages/creator?page=` + page).then((res) => {
+                axios.get(`/api/user/${this.userId}/page/creator?page=` + page).then((res) => {
                     this.createdPages = res.data;
                 }).catch((error) => {
                     console.log(error)
