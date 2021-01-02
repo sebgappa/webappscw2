@@ -105,7 +105,7 @@ class PageController extends Controller
     public function getPageUsers($pageId) {
         $page = Page::where('id', $pageId)->get()->first();
         $userIds = $page->users->pluck('id')->toArray();
-        $paginatedUsers = User::whereIn('id', $userIds)->paginate(5);
+        $paginatedUsers = User::whereIn('id', $userIds)->latest()->paginate(5);
 
         return response()->json($paginatedUsers, '200');
     }

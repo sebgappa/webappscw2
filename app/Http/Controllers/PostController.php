@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\User;
+use App\Page;
 
 class PostController extends Controller
 {
@@ -29,9 +31,15 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($pageId)
     {
-        //
+        $page = Page::where('id', $pageId)->get()->first();
+
+        if($page == null) {
+            abort('404');
+        };
+
+        return view('post.create', ['pageId' => $pageId]);
     }
 
     /**
@@ -40,9 +48,25 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $pageId)
     {
-        //
+        $this->validate($request, [
+            'body' => 'required|max:200',
+            'title' => 'required|max:100'
+        ],
+        [
+            'body.required' => 'The page body must not be empty.',
+            'title.required' => 'The page title must not be empty.'
+        ]);
+
+        $post = new Post;
+        $post->body = $request->body;
+        $post->title = $request->title;
+        $post->synopsis = substr($request->body, 0, 150) . '...';
+        $post->user_id = Auth::user()->id;
+        $post->page_id = $pageId;
+
+        $post->save();
     }
 
     /**

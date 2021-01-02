@@ -27,32 +27,6 @@
                             class="btn btn-secondary dropdown-toggle" 
                             type="button" 
                             data-toggle="collapse" 
-                            data-target="#pagesList" 
-                            aria-expanded="false" 
-                            aria-controls="pagesList">
-                        View pages
-                        </button>
-                        <div class="collapse" id="pagesList">
-                            <div v-for="page in pages.data" :key="page.id">
-                                <div class="pt-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <h5 class="card-title">{{ page.title}}</h5>
-                                            <a :href="'/pages/' + page.id" class="btn btn-primary">Go to page</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-2">
-                                <pagination :data="pages" v-on:pagination-change-page="getPages"></pagination>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-8 pt-3">
-                        <button 
-                            class="btn btn-secondary dropdown-toggle" 
-                            type="button" 
-                            data-toggle="collapse" 
                             data-target="#postsList" 
                             aria-expanded="false" 
                             aria-controls="postsList">
@@ -65,7 +39,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ post.title}}</h5>
                                             <p class="card-text"> {{ post.synopsis }} </p>
-                                            <a :href="'/pages/' + post.page_id + '/posts/' + post.id" class="btn btn-primary">Go to post</a>
+                                            <a :href="'/page/' + post.page_id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
                                         </div>
                                     </div>
                                 </div>
@@ -111,30 +85,18 @@
         props:['user'],
         data() {
             return {
-                pages: {},
                 posts: {},
                 comments: {}
             }
         },
 
         methods: {
-            getPages(page) {
-                if (typeof page == 'undefined') {
-                    page = 1;
-                }
-
-                axios.get(`/api/users/${this.user.id}/pages?page=` + page).then((res) => {
-                    this.pages = res.data;
-                }).catch((error) => {
-                    console.log(error)
-                })
-            },
             getPosts(page) {
                 if (typeof page == 'undefined') {
                     page = 1;
                 }
 
-                axios.get(`/api/users/${this.user.id}/posts?page=` + page).then((res) => {
+                axios.get(`/api/user/${this.user.id}/post?page=` + page).then((res) => {
                     this.posts = res.data;
                 }).catch((error) => {
                     console.log(error)
@@ -145,7 +107,7 @@
                     page = 1;
                 }
 
-                axios.get(`/api/users/${this.user.id}/comments?page=` + page).then((res) => {
+                axios.get(`/api/user/${this.user.id}/comment?page=` + page).then((res) => {
                     this.comments = res.data;
                 }).catch((error) => {
                     console.log(error)
@@ -154,7 +116,6 @@
         },
 
         mounted() {
-            this.getPages(),
             this.getPosts(),
             this.getComments()
         }

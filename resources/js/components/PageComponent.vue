@@ -10,7 +10,7 @@
                                 <h5 class="card-title">{{ post.title}}</h5>
                                 <p class="card-text"> {{ post.synopsis }} </p>
                                 <p class="card-text font-weight-bold font-italic"> Posted by {{ post.username}} </p>
-                                <a :href="'/pages/' + page.id + '/posts/' + post.id" class="btn btn-primary">Go to post</a>
+                                <a :href="'/page/' + page.id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
                             </div>
                         </div>
                     </div>
@@ -19,6 +19,14 @@
                     </div>
                 </div>
                 <div class="col-4">
+                    <div class="pr-2 pb-2">
+                        <a 
+                            :href ="'/page/' + pageId + '/post/create'"
+                            class="btn btn-success" 
+                            role="button">
+                            Create a new post
+                        </a>
+                    </div>
                     <button 
                         class="btn btn-secondary dropdown-toggle" 
                         type="button" 
@@ -62,7 +70,7 @@
                     page = 1;
                 }
 
-                axios.get(`/api/pages/${this.pageId}/users?page=` + page).then((res) => {
+                axios.get(`/api/page/${this.pageId}/user?page=` + page).then((res) => {
                     this.users = res.data
                 }).catch((error) => {
                     console.log(error)

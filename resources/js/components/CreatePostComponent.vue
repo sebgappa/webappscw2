@@ -1,20 +1,20 @@
 <template>
-        <form @submit.prevent="createPage">
+        <form @submit.prevent="createPost">
             <div class="form-group">
                 <div class="row">
                     <div class="col-12">
-                        <label for="title">Page title:</label>
+                        <label for="title">Title:</label>
                         <input v-model="form.title" :class="{'is-invalid' : form.errors.has('title')}" name="title" class="form-control" rows="3" @keydown="form.errors.clear('title')">
                         <label class="text-danger pt-2 pl-2" 
                             v-if="form.errors.has('title')" 
                             v-text="form.errors.get('title')"></label>
                     </div>
                     <div class="col-12 pt-3">
-                        <label for="description">Page description:</label>
-                        <textarea v-model="form.description" :class="{'is-invalid' : form.errors.has('description')}" name="description" class="form-control" rows="3" @keydown="form.errors.clear('description')"></textarea>
+                        <label for="body">Body:</label>
+                        <textarea v-model="form.body" :class="{'is-invalid' : form.errors.has('body')}" name="body" class="form-control" rows="3" @keydown="form.errors.clear('body')"></textarea>
                         <label class="text-danger pt-2 pl-2" 
-                            v-if="form.errors.has('description')" 
-                            v-text="form.errors.get('description')"></label>
+                            v-if="form.errors.has('body')" 
+                            v-text="form.errors.get('body')"></label>
                     </div>
                 </div>
             </div>
@@ -24,24 +24,25 @@
 
 <script>
     export default {
+        props:['pageId'],
         data() {
             return {
                 form: new Form({
                     title: '',
-                    description: '',
+                    body: '',
                 })
             }
         },
 
         methods: {
-            createPage() {
+            createPost() {
                 let data = new FormData()
                 data.append('title', this.form.title)
-                data.append('description', this.form.description)
+                data.append('body', this.form.body)
 
-                axios.post(`/api/page/`, data).then((res) => {
+                axios.post(`/api/page/${this.pageId}/post/`, data).then((res) => {
                     this.form.reset()
-                    window.location.href = `/home`
+                    window.location.href = `/page/${this.pageId}`
                 }).catch((error) => {
                     this.form.errors.record(error.response.data.errors)
                 })

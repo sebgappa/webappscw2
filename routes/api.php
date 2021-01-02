@@ -19,19 +19,19 @@ Route::middleware(['auth:api'])->group(function() {
         return $request->user();
     });
 
+    Route::get('page/{pageId}/user', 'PageController@getPageUsers');
+
+    Route::get('user/{id}/page/member', 'UserController@memberPages');
+
+    Route::get('user/{id}/page/creator', 'UserController@createdPages');
+
+    Route::get('user/{id}/post', 'UserController@posts');
+
+    Route::get('user/{id}/comment', 'UserController@comments');
+
     Route::resource('post/{postId}/comment', 'CommentController');
 
     Route::resource('page/{pageId}/post', 'PostController');
 
     Route::resource('page', 'PageController');
-
-    Route::get('pages/{pageId}/users', 'PageController@getPageUsers');
-
-    Route::get('users/{id}/pages/member', 'UserController@memberPages');
-
-    Route::get('users/{id}/pages/creator', 'UserController@createdPages');
-
-    Route::get('users/{id}/posts', 'UserController@posts');
-
-    Route::get('users/{id}/comments', 'UserController@comments');
 });

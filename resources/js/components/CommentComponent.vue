@@ -15,12 +15,12 @@
                 type="button" 
                 data-toggle="collapse" 
                 data-target="#commentsList" 
-                aria-expanded="false" 
+                aria-expanded="true" 
                 aria-controls="commentsList">
                 View comments
             </button>
             <div class="pt-2">
-                <div class="collapse" id="commentsList">
+                <div class="collapse show" id="commentsList">
                     <div v-for="comment in comments.data" :key="comment.id">
                         <div class="pt-3">
                             <div class="card card-header">
@@ -55,7 +55,6 @@
 
         methods: {
             getComments(page) {
-            
                 if (typeof page == 'undefined') {
                     page = 1;
                 }
