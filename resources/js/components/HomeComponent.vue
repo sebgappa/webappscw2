@@ -1,6 +1,14 @@
 <template>
         <div class="row">
             <div class="col-12">
+                <a 
+                    :href ="'/page/create'"
+                    class="btn btn-success" 
+                    role="button">
+                    Create a new page
+                </a>
+            </div>
+            <div class="col-12 pt-3">
                 <button 
                     class="btn btn-primary dropdown-toggle" 
                     type="button" 
@@ -8,7 +16,7 @@
                     data-target="#memberPages" 
                     aria-expanded="true" 
                     aria-controls="memberPages">
-                    Pages you're a part of
+                    Pages you're a member of
                 </button>
                 <div class="collapse show" id="memberPages">
                     <div v-for="page in memberPages.data" :key="page.id">
@@ -24,7 +32,7 @@
                         </div>
                     </div>
                     <div class="pt-2">
-                        <pagination :data="pages" v-on:pagination-change-page="getPages"></pagination>
+                        <pagination :data="memberPages" v-on:pagination-change-page="getMemberPages"></pagination>
                     </div>
                 </div>
             </div>
@@ -51,7 +59,7 @@
                         </div>
                     </div>
                     <div class="pt-2">
-                        <pagination :data="pages" v-on:pagination-change-page="getPages"></pagination>
+                        <pagination :data="createdPages" v-on:pagination-change-page="getCreatedPages"></pagination>
                     </div>
                 </div>
             </div>
