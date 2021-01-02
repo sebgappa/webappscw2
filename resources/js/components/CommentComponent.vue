@@ -1,6 +1,6 @@
 <template>
     <div class="pt-2">
-        <form @submit.prevent="saveComment">
+        <form @submit.prevent="createComment">
             <div class="form-group">
                 <label for="comment">Your Comment:</label>
                 <textarea v-model="form.body" :class="{'is-invalid' : form.errors.has('body')}" name="comment" class="form-control" rows="3" @keydown="form.errors.clear('body')"></textarea>
@@ -60,19 +60,19 @@
                     page = 1;
                 }
 
-                axios.get(`/api/posts/${this.postId}/comment?page=` + page).then((res) => {
+                axios.get(`/api/post/${this.postId}/comment?page=` + page).then((res) => {
                     this.comments = res.data;
                 }).catch((error) => {
                     console.log(error)
                 })
             },
 
-            saveComment() {
+            createComment() {
                 let data = new FormData()
                 data.append('body', this.form.body)
                 data.append('user_id', this.userId)
                 
-                axios.post(`/api/posts/${this.postId}/comment`, data).then((res) => {
+                axios.post(`/api/post/${this.postId}/comment`, data).then((res) => {
                     this.form.reset()
                     this.getComments()
                 }).catch((error) => {

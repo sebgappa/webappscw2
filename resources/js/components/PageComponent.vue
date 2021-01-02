@@ -70,7 +70,7 @@
             },
 
             getPage() {
-                axios.get(`/api/pages/${this.pageId}`).then((res) => {
+                axios.get(`/api/page/${this.pageId}`).then((res) => {
                     this.page = res.data
                 }).catch((error) => {
                     console.log(error)
@@ -82,7 +82,7 @@
                     page = 1;
                 }
 
-                axios.get(`/api/pages/${this.pageId}/posts?page=` + page).then((res) => {
+                axios.get(`/api/page/${this.pageId}/post?page=` + page).then((res) => {
                     this.posts = res.data
                 }).catch((error) => {
                     console.log(error)

@@ -101,6 +101,6 @@ class PostController extends Controller
             abort(404);
         };
 
-        return view('post', ['postId' => $postId, 'pageId' => $pageId]);
+        return view('post.show', ['postId' => $postId, 'pageId' => $pageId]);
     }
 }

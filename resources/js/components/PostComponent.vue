@@ -21,7 +21,7 @@
 
         methods: {
             getPost() {
-                axios.get(`/api/pages/${this.pageId}/posts/${this.postId}`).then((res) => {
+                axios.get(`/api/page/${this.pageId}/post/${this.postId}`).then((res) => {
                     this.post = res.data
                 }).catch((error) => {
                     console.log(error)
