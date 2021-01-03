@@ -17,4 +17,8 @@ class Page extends Model
     public function creator() {
         return $this->hasOne('App\User');
     }
+
+    public function tag() {
+        return $this->morphOne(Tag::class, 'taggable');
+    }
 }

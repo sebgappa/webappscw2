@@ -24,8 +24,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ page.title}}</h5>
+                                    <div v-if="page.tag" class="pb-2">
+                                        <span class="badge badge-info text-white">{{ page.tag.name }}</span>
+                                    </div>
                                     <p class="card-text"> {{ page.description }} </p>
-                                    <p class="card-text font-weight-bold font-italic"> Created by {{ page.username}} </p>
+                                    <p class="card-text font-weight-bold font-italic"> Created by {{ page.username }} </p>
                                     <a :href="'/page/' + page.id" class="btn btn-primary">Go to page</a>
                                 </div>
                             </div>
@@ -35,7 +38,7 @@
                         <pagination :data="memberPages" v-on:pagination-change-page="getMemberPages"></pagination>
                     </div>
 
-                    <div v-if="memberPages.data.length == 0">
+                    <div v-if="memberPages.total == 0">
                         <label>You're not a member of any pages!</label>
                     </div>
                 </div>
@@ -56,8 +59,11 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h5 class="card-title">{{ page.title}}</h5>
+                                    <div class="pb-2">
+                                        <span class="badge badge-info text-white">{{ page.tag.name }}</span>
+                                    </div>
                                     <p class="card-text"> {{ page.description }} </p>
-                                    <a :href="'/pages/' + page.id" class="btn btn-primary">Go to page</a>
+                                    <a :href="'/page/' + page.id" class="btn btn-primary">Go to page</a>
                                     <a v-on:click="deletePage(page.id)" class="btn btn-danger">Delete page</a>
                                 </div>
                             </div>
@@ -67,7 +73,7 @@
                         <pagination :data="createdPages" v-on:pagination-change-page="getCreatedPages"></pagination>
                     </div>
 
-                    <div v-if="createdPages.data.length == 0">
+                    <div v-if="createdPages.total == 0">
                         <label>You haven't created any pages!</label>
                     </div>
                 </div>

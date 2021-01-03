@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Post;
 use App\User;
 use App\Page;
+use App\Tag;
 
 class PostController extends Controller
 {
@@ -21,6 +22,7 @@ class PostController extends Controller
 
         foreach ($posts as $post) {
             $post->username = User::find($post->user_id)->name;
+            $post->tag;
         };
         
         return response()->json($posts, '200');
@@ -52,11 +54,13 @@ class PostController extends Controller
     {
         $this->validate($request, [
             'body' => 'required|max:200',
-            'title' => 'required|max:100'
+            'title' => 'required|max:100',
+            'tag' => 'required|max:20',
         ],
         [
             'body.required' => 'The page body must not be empty.',
-            'title.required' => 'The page title must not be empty.'
+            'title.required' => 'The page title must not be empty.',
+            'tag.required' => 'The page needs a tag.',
         ]);
 
         $post = new Post;
@@ -65,8 +69,11 @@ class PostController extends Controller
         $post->synopsis = substr($request->body, 0, 150) . '...';
         $post->user_id = Auth::user()->id;
         $post->page_id = $pageId;
-
         $post->save();
+
+        $tag = new Tag(['name' => $request->tag]);
+        $postTag = Post::find($post->id); 
+        $postTag->tag()->save($tag);
     }
 
     /**

@@ -8,6 +8,9 @@
                         <div class="card mb-4">
                             <div class="card-body">
                                 <h5 class="card-title">{{ post.title}}</h5>
+                                <div v-if="post.tag" class="pb-2">
+                                    <span class="badge badge-info text-white">{{ post.tag.name }}</span>
+                                </div>
                                 <p class="card-text"> {{ post.synopsis }} </p>
                                 <p class="card-text font-weight-bold font-italic"> Posted by {{ post.username}} </p>
                                 <a :href="'/page/' + page.id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
@@ -19,7 +22,7 @@
                         <pagination :data="posts" v-on:pagination-change-page="getPosts"></pagination>
                     </div>
 
-                    <div v-if="posts.data.length == 0">
+                    <div v-if="posts.total == 0">
                         <label>No posts yet!</label>
                     </div>
                 </div>
@@ -52,7 +55,7 @@
                                 <pagination :data="users" v-on:pagination-change-page="getPageUsers"></pagination>
                             </div>
 
-                            <div v-if="users.data.length == 0">
+                            <div v-if="users.total == 0">
                                 <label>No members yet!</label>
                             </div>
                         </div>

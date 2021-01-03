@@ -2133,12 +2133,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       form: new Form({
         title: '',
-        description: ''
+        description: '',
+        tag: ''
       })
     };
   },
@@ -2149,6 +2157,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = new FormData();
       data.append('title', this.form.title);
       data.append('description', this.form.description);
+      data.append('tag', this.form.tag);
       axios.post("/api/page/", data).then(function (res) {
         _this.form.reset();
 
@@ -2195,13 +2204,21 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['pageId'],
   data: function data() {
     return {
       form: new Form({
         title: '',
-        body: ''
+        body: '',
+        tag: ''
       })
     };
   },
@@ -2212,6 +2229,7 @@ __webpack_require__.r(__webpack_exports__);
       var data = new FormData();
       data.append('title', this.form.title);
       data.append('body', this.form.body);
+      data.append('tag', this.form.tag);
       axios.post("/api/page/".concat(this.pageId, "/post/"), data).then(function (res) {
         _this.form.reset();
 
@@ -2234,6 +2252,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2373,6 +2397,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -38832,7 +38859,7 @@ var render = function() {
                   1
                 ),
                 _vm._v(" "),
-                _vm.posts.data.length == 0
+                _vm.posts.total == 0
                   ? _c("div", [
                       _c("label", [_vm._v("You haven't created any posts!")])
                     ])
@@ -38991,7 +39018,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.comments.data.length == 0
+            _vm.comments.total == 0
               ? _c("div", [
                   _c("label", [
                     _vm._v("This post doesn't have any comments yet!")
@@ -39118,6 +39145,43 @@ var render = function() {
                   }
                 })
               : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 pt-3" }, [
+            _c("label", { attrs: { for: "tag" } }, [_vm._v("Tag:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.tag,
+                  expression: "form.tag"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.form.errors.has("tag") },
+              attrs: { name: "tag", rows: "3" },
+              domProps: { value: _vm.form.tag },
+              on: {
+                keydown: function($event) {
+                  return _vm.form.errors.clear("tag")
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "tag", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.form.errors.has("tag")
+              ? _c("label", {
+                  staticClass: "text-danger pt-2 pl-2",
+                  domProps: { textContent: _vm._s(_vm.form.errors.get("tag")) }
+                })
+              : _vm._e()
           ])
         ])
       ]),
@@ -39239,6 +39303,43 @@ var render = function() {
                   domProps: { textContent: _vm._s(_vm.form.errors.get("body")) }
                 })
               : _vm._e()
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-12 pt-3" }, [
+            _c("label", { attrs: { for: "tag" } }, [_vm._v("Tag:")]),
+            _vm._v(" "),
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.form.tag,
+                  expression: "form.tag"
+                }
+              ],
+              staticClass: "form-control",
+              class: { "is-invalid": _vm.form.errors.has("tag") },
+              attrs: { name: "tag", rows: "3" },
+              domProps: { value: _vm.form.tag },
+              on: {
+                keydown: function($event) {
+                  return _vm.form.errors.clear("tag")
+                },
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.form, "tag", $event.target.value)
+                }
+              }
+            }),
+            _vm._v(" "),
+            _vm.form.errors.has("tag")
+              ? _c("label", {
+                  staticClass: "text-danger pt-2 pl-2",
+                  domProps: { textContent: _vm._s(_vm.form.errors.get("tag")) }
+                })
+              : _vm._e()
           ])
         ])
       ]),
@@ -39314,6 +39415,16 @@ var render = function() {
                       _vm._v(_vm._s(page.title))
                     ]),
                     _vm._v(" "),
+                    page.tag
+                      ? _c("div", { staticClass: "pb-2" }, [
+                          _c(
+                            "span",
+                            { staticClass: "badge badge-info text-white" },
+                            [_vm._v(_vm._s(page.tag.name))]
+                          )
+                        ])
+                      : _vm._e(),
+                    _vm._v(" "),
                     _c("p", { staticClass: "card-text" }, [
                       _vm._v(" " + _vm._s(page.description) + " ")
                     ]),
@@ -39350,7 +39461,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.memberPages.data.length == 0
+          _vm.memberPages.total == 0
             ? _c("div", [
                 _c("label", [_vm._v("You're not a member of any pages!")])
               ])
@@ -39389,6 +39500,14 @@ var render = function() {
                       _vm._v(_vm._s(page.title))
                     ]),
                     _vm._v(" "),
+                    _c("div", { staticClass: "pb-2" }, [
+                      _c(
+                        "span",
+                        { staticClass: "badge badge-info text-white" },
+                        [_vm._v(_vm._s(page.tag.name))]
+                      )
+                    ]),
+                    _vm._v(" "),
                     _c("p", { staticClass: "card-text" }, [
                       _vm._v(" " + _vm._s(page.description) + " ")
                     ]),
@@ -39397,7 +39516,7 @@ var render = function() {
                       "a",
                       {
                         staticClass: "btn btn-primary",
-                        attrs: { href: "/pages/" + page.id }
+                        attrs: { href: "/page/" + page.id }
                       },
                       [_vm._v("Go to page")]
                     ),
@@ -39432,7 +39551,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.createdPages.data.length == 0
+          _vm.createdPages.total == 0
             ? _c("div", [
                 _c("label", [_vm._v("You haven't created any pages!")])
               ])
@@ -39484,6 +39603,16 @@ var render = function() {
                   _c("h5", { staticClass: "card-title" }, [
                     _vm._v(_vm._s(post.title))
                   ]),
+                  _vm._v(" "),
+                  post.tag
+                    ? _c("div", { staticClass: "pb-2" }, [
+                        _c(
+                          "span",
+                          { staticClass: "badge badge-info text-white" },
+                          [_vm._v(_vm._s(post.tag.name))]
+                        )
+                      ])
+                    : _vm._e(),
                   _vm._v(" "),
                   _c("p", { staticClass: "card-text" }, [
                     _vm._v(" " + _vm._s(post.synopsis) + " ")
@@ -39537,7 +39666,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _vm.posts.data.length == 0
+          _vm.posts.total == 0
             ? _c("div", [_c("label", [_vm._v("No posts yet!")])])
             : _vm._e()
         ],
@@ -39605,7 +39734,7 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _vm.users.data.length == 0
+            _vm.users.total == 0
               ? _c("div", [_c("label", [_vm._v("No members yet!")])])
               : _vm._e()
           ])

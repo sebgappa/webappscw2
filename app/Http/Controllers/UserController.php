@@ -17,6 +17,7 @@ class UserController extends Controller
 
         foreach ($paginatedPages as $page) {
             $page->username = User::find($page->user_id)->name;
+            $page->tag;
         };
 
         return response()->json($paginatedPages, '200');
@@ -29,6 +30,7 @@ class UserController extends Controller
 
         foreach ($paginatedPages as $page) {
             $page->username = User::find($page->user_id)->name;
+            $page->tag;
         };
 
         return response()->json($paginatedPages, '200');
