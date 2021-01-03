@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\User;
 use App\Page;
 use App\Post;
@@ -50,5 +51,21 @@ class UserController extends Controller
         $paginatedComments = Comment::whereIn('id', $commentIds)->latest()->paginate(5);
 
         return response()->json($paginatedComments, '200');
+    }
+
+    public function joinPage($id, $pageId) {
+        if(!$id == Auth::user()->id) {
+            abort('401');
+        };
+
+        $user = User::find($id);
+
+        if($user->pages()->find($pageId)) {
+            abort('400');
+        };
+
+        $page = Page::find($pageId);
+
+        $user->pages()->save($page);
     }
 }

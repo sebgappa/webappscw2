@@ -146,7 +146,7 @@ class PostController extends Controller
         $post = Post::find($postId);
 
         if(!$post->user_id == Auth::user()->id) {
-            abort('400');
+            abort('401');
         };
 
         return $post->delete();

@@ -7,6 +7,12 @@
                     role="button">
                     Create a new page +
                 </a>
+                <a 
+                    :href ="'/page/join'"
+                    class="btn btn-success" 
+                    role="button">
+                    Join a page +
+                </a>
             </div>
             <div class="col-12 pt-3">
                 <button 

@@ -27,6 +27,7 @@ Vue.component('page-component', require('./components/PageComponent.vue').defaul
 Vue.component('create-page-component', require('./components/CreatePageComponent.vue').default);
 Vue.component('create-post-component', require('./components/CreatePostComponent.vue').default);
 Vue.component('account-component', require('./components/AccountComponent.vue').default);
+Vue.component('find-pages-component', require('./components/FindPagesComponent.vue').default);
 Vue.component('home-component', require('./components/HomeComponent.vue').default);
 Vue.component('pagination', require('laravel-vue-pagination'))
 
