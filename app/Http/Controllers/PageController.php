@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Page;
 use App\User;
 use App\Tag;
@@ -17,7 +18,14 @@ class PageController extends Controller
      */
     public function index()
     {
-        //
+        $excludedPages = User::find(Auth::user()->id)->pages()->pluck('id');
+        $pages = Page::whereNotIn('id', $excludedPages)->latest()->paginate(5);
+
+        foreach ($pages as $page) {
+            $page->username = User::find($page->user_id)->name;
+        };
+
+        return response()->json($pages, '200');
     }
 
     /**
@@ -130,5 +138,9 @@ class PageController extends Controller
         };
 
         return view('page.show', ['pageId' => $id]);
+    }
+
+    public function join() {
+        return view('page.join');
     }
 }

@@ -33,6 +33,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('page/create', 'PageController@create');
 
+    Route::get('page/join', 'PageController@join');
+
     Route::get('/page/{pageId}/post/create', 'PostController@create');
 
     Route::get('/page/{pageId}/post/{postId}', 'PostController@view')->name('post.show');
