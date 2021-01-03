@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Dogs;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+app()->singleton(Dogs::class, function ($app) {
+    return new Dogs();
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -24,9 +29,7 @@ Route::middleware(['auth'])->group(function () {
         return view('home');
     })->name('home');
 
-    Route::get('/account', function() {
-        return view('account');
-    })->name('account');
+    Route::get('/account', 'AccountController@view')->name('account');
 
     Route::get('page/create', 'PageController@create');
 
@@ -35,5 +38,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/page/{pageId}/post/{postId}', 'PostController@view')->name('post.show');
 
     Route::get('/page/{id}', 'PageController@view')->name('page.show');
-
 });

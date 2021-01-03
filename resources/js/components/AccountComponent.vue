@@ -6,7 +6,7 @@
                     <div class="col-4">
                         <div class="card" style="width: 18rem;">
                             <div class="text-center">
-                                <img :src="'images/user-circle-solid.svg'" class="card-img-top mt-3" style="width:100px;height:100px;">
+                                <img :src="dog" class="card-img-top mt-3" style="width:100px;height:100px;">
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title">{{user.name}}</h5>
@@ -61,7 +61,7 @@
 
 <script>
     export default {
-        props:['user'],
+        props:['user', 'dog'],
         data() {
             return {
                 posts: {},

@@ -1970,7 +1970,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['user'],
+  props: ['user', 'dog'],
   data: function data() {
     return {
       posts: {},
@@ -38770,7 +38770,7 @@ var render = function() {
                   _c("img", {
                     staticClass: "card-img-top mt-3",
                     staticStyle: { width: "100px", height: "100px" },
-                    attrs: { src: "images/user-circle-solid.svg" }
+                    attrs: { src: _vm.dog }
                   })
                 ]),
                 _vm._v(" "),
