@@ -5,6 +5,11 @@
             </div>
             <div class="card-body">
                 {{ this.post.body }}
+                <div v-if="post.image">
+                    <div class="pt-3">
+                        <img :src="post.image.image_path" class="img-fluid">
+                    </div>
+                </div>
                 <p class="card-text pt-3 font-weight-bold font-italic"> Posted by {{ post.username}} </p>
             </div>
         </div>

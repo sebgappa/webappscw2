@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Post;
 use App\User;
 use App\Page;
 use App\Tag;
+use App\Image;
 
 class PostController extends Controller
 {
@@ -74,6 +76,25 @@ class PostController extends Controller
         $tag = new Tag(['name' => $request->tag]);
         $postTag = Post::find($post->id); 
         $postTag->tag()->save($tag);
+
+        return response()->json($post->id, '200');
+    }
+
+    public function saveImage(Request $request, $postId) {
+        if ($request->hasFile('image')) {
+            if ($request->file('image')->isValid()) {
+                $validated = $request->validate([
+                    'image' => 'mimes:jpeg,png',
+                ]);
+                $name = $request->image->getClientOriginalName();
+                $request->image->storeAs('/public', Auth::user()->name."-".$name);
+                $url = Storage::url(Auth::user()->name."-".$name);
+                $image = Image::create([
+                    'image_path' => $url,
+                    'post_id' => $postId 
+                ]);
+            }
+        }
     }
 
     /**
@@ -85,7 +106,8 @@ class PostController extends Controller
     public function show($pageId, $id)
     {
         $post = Post::where(['id' => $id, 'page_id' => $pageId])->get()->first();
-        $post->username = User::find($post->user_id)->name; 
+        $post->username = User::find($post->user_id)->name;
+        $post->image; 
         
         return response()->json($post, '200');
     }
