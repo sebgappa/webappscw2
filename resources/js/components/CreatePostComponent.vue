@@ -16,6 +16,13 @@
                             v-if="form.errors.has('body')" 
                             v-text="form.errors.get('body')"></label>
                     </div>
+                    <div class="col-12 pt-3">
+                        <label for="tag">Tag:</label>
+                        <input v-model="form.tag" :class="{'is-invalid' : form.errors.has('tag')}" name="tag" class="form-control" rows="3" @keydown="form.errors.clear('tag')">
+                        <label class="text-danger pt-2 pl-2" 
+                            v-if="form.errors.has('tag')" 
+                            v-text="form.errors.get('tag')"></label>
+                    </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary">Create</button>
@@ -30,6 +37,7 @@
                 form: new Form({
                     title: '',
                     body: '',
+                    tag: '',
                 })
             }
         },
@@ -39,6 +47,7 @@
                 let data = new FormData()
                 data.append('title', this.form.title)
                 data.append('body', this.form.body)
+                data.append('tag', this.form.tag)
 
                 axios.post(`/api/page/${this.pageId}/post/`, data).then((res) => {
                     this.form.reset()

@@ -17,4 +17,8 @@ class Post extends Model
     public function page() {
         return $this->belongsTo('App\Page');
     }
+
+    public function tag() {
+        return $this->morphOne(Tag::class, 'taggable');
+    }
 }

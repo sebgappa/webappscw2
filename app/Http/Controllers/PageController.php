@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Page;
 use App\User;
+use App\Tag;
 
 class PageController extends Controller
 {
@@ -39,19 +40,24 @@ class PageController extends Controller
     {
         $this->validate($request, [
             'description' => 'required|max:200',
-            'title' => 'required|max:100'
+            'title' => 'required|max:100',
+            'tag' => 'required|max:20',
         ],
         [
             'description.required' => 'The page description must not be empty.',
-            'title.required' => 'The page title must not be empty.'
+            'title.required' => 'The page title must not be empty.',
+            'tag.required' => 'The page needs a tag.',
         ]);
 
         $page = new Page;
         $page->description = $request->description;
         $page->title = $request->title;
         $page->user_id = Auth::user()->id;
-
         $page->save();
+
+        $tag = new Tag(['name' => $request->tag]);
+        $pageTag = Page::find($page->id); 
+        $pageTag->tag()->save($tag);
     }
 
     /**

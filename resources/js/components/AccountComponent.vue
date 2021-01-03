@@ -48,7 +48,7 @@
                                 <pagination :data="posts" v-on:pagination-change-page="getPosts"></pagination>
                             </div>
 
-                            <div v-if="posts.data.length == 0">
+                            <div v-if="posts.total == 0">
                                 <label>You haven't created any posts!</label>
                             </div>
                         </div>
