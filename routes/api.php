@@ -29,6 +29,8 @@ Route::middleware(['auth:api'])->group(function() {
 
     Route::get('user/{id}/comment', 'UserController@comments');
 
+    Route::post('post/{postId}/image', 'PostController@saveImage');
+
     Route::resource('post/{postId}/comment', 'CommentController');
 
     Route::resource('page/{pageId}/post', 'PostController');

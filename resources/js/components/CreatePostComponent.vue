@@ -25,6 +25,12 @@
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col-12 pt-3 pb-3">
+                    <label >Upload image:</label>
+                    <input type="file" @change="updateImage($event)" id="image" name="image">
+                </div>
+            </div>
             <button type="submit" class="btn btn-primary">Create</button>
         </form>
 </template>
@@ -34,6 +40,9 @@
         props:['pageId'],
         data() {
             return {
+                postId: '',
+                image: '',
+
                 form: new Form({
                     title: '',
                     body: '',
@@ -50,11 +59,27 @@
                 data.append('tag', this.form.tag)
 
                 axios.post(`/api/page/${this.pageId}/post/`, data).then((res) => {
+                    this.postId = res.data
                     this.form.reset()
-                    window.location.href = `/page/${this.pageId}`
+                    this.uploadImage()
                 }).catch((error) => {
                     this.form.errors.record(error.response.data.errors)
                 })
+            },
+
+            uploadImage() {
+                let data = new FormData()
+                data.append('image', this.image)
+
+                axios.post(`/api/post/${this.postId}/image`, data, {headers: {'Content-Type': 'multipart/form-data'}}).then((res) => {
+                    window.location.href = `/page/${this.pageId}`
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
+            updateImage(event) {
+                this.image = event.target.files[0]
             }
         }
     }

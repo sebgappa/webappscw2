@@ -21,4 +21,8 @@ class Post extends Model
     public function tag() {
         return $this->morphOne(Tag::class, 'taggable');
     }
+
+    public function image() {
+        return $this->hasOne('App\Image');
+    }
 }

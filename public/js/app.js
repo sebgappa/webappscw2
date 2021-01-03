@@ -2211,10 +2211,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['pageId'],
   data: function data() {
     return {
+      postId: '',
+      image: '',
       form: new Form({
         title: '',
         body: '',
@@ -2231,12 +2239,32 @@ __webpack_require__.r(__webpack_exports__);
       data.append('body', this.form.body);
       data.append('tag', this.form.tag);
       axios.post("/api/page/".concat(this.pageId, "/post/"), data).then(function (res) {
+        _this.postId = res.data;
+
         _this.form.reset();
 
-        window.location.href = "/page/".concat(_this.pageId);
+        _this.uploadImage();
       })["catch"](function (error) {
         _this.form.errors.record(error.response.data.errors);
       });
+    },
+    uploadImage: function uploadImage() {
+      var _this2 = this;
+
+      var data = new FormData();
+      data.append('image', this.image);
+      axios.post("/api/post/".concat(this.postId, "/image"), data, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        window.location.href = "/page/".concat(_this2.pageId);
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    updateImage: function updateImage(event) {
+      this.image = event.target.files[0];
     }
   }
 });
@@ -2537,6 +2565,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
 //
 //
 //
@@ -39344,6 +39377,21 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-12 pt-3 pb-3" }, [
+          _c("label", [_vm._v("Upload image:")]),
+          _vm._v(" "),
+          _c("input", {
+            attrs: { type: "file", id: "image", name: "image" },
+            on: {
+              change: function($event) {
+                return _vm.updateImage($event)
+              }
+            }
+          })
+        ])
+      ]),
+      _vm._v(" "),
       _c(
         "button",
         { staticClass: "btn btn-primary", attrs: { type: "submit" } },
@@ -39772,6 +39820,17 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "card-body" }, [
       _vm._v("\n        " + _vm._s(this.post.body) + "\n        "),
+      _vm.post.image
+        ? _c("div", [
+            _c("div", { staticClass: "pt-3" }, [
+              _c("img", {
+                staticClass: "img-fluid",
+                attrs: { src: _vm.post.image.image_path }
+              })
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
       _c("p", { staticClass: "card-text pt-3 font-weight-bold font-italic" }, [
         _vm._v(" Posted by " + _vm._s(_vm.post.username) + " ")
       ])
