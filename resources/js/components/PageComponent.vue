@@ -11,11 +11,16 @@
                                 <p class="card-text"> {{ post.synopsis }} </p>
                                 <p class="card-text font-weight-bold font-italic"> Posted by {{ post.username}} </p>
                                 <a :href="'/page/' + page.id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
+                                <a v-on:click="deletePost(post.id)" v-if="post.user_id == userId" class="btn btn-danger">Delete post</a>
                             </div>
                         </div>
                     </div>
                     <div class="pt-2">
                         <pagination :data="posts" v-on:pagination-change-page="getPosts"></pagination>
+                    </div>
+
+                    <div v-if="posts.data.length == 0">
+                        <label>No posts yet!</label>
                     </div>
                 </div>
                 <div class="col-4">
@@ -46,6 +51,10 @@
                             <div class="pt-2">
                                 <pagination :data="users" v-on:pagination-change-page="getPageUsers"></pagination>
                             </div>
+
+                            <div v-if="users.data.length == 0">
+                                <label>No members yet!</label>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -55,7 +64,7 @@
 
 <script>
     export default {
-        props:['pageId'],
+        props:['pageId', 'userId'],
         data() {
             return {
                 page: '',
@@ -65,6 +74,14 @@
         },
 
         methods: {
+            deletePost: function (postId) {
+                axios.delete(`/api/page/${this.pageId}/post/${postId}`).then((res) => {
+                    this.getPosts()
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
             getPageUsers(page) {
                 if (typeof page == 'undefined') {
                     page = 1;

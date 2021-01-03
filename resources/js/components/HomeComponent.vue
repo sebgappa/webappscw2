@@ -5,7 +5,7 @@
                     :href ="'/page/create'"
                     class="btn btn-success" 
                     role="button">
-                    Create a new page
+                    Create a new page +
                 </a>
             </div>
             <div class="col-12 pt-3">
@@ -34,6 +34,10 @@
                     <div class="pt-2">
                         <pagination :data="memberPages" v-on:pagination-change-page="getMemberPages"></pagination>
                     </div>
+
+                    <div v-if="memberPages.data.length == 0">
+                        <label>You're not a member of any pages!</label>
+                    </div>
                 </div>
             </div>
             <div class="col-12 pt-3">
@@ -54,12 +58,17 @@
                                     <h5 class="card-title">{{ page.title}}</h5>
                                     <p class="card-text"> {{ page.description }} </p>
                                     <a :href="'/pages/' + page.id" class="btn btn-primary">Go to page</a>
+                                    <a v-on:click="deletePage(page.id)" class="btn btn-danger">Delete page</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="pt-2">
                         <pagination :data="createdPages" v-on:pagination-change-page="getCreatedPages"></pagination>
+                    </div>
+
+                    <div v-if="createdPages.data.length == 0">
+                        <label>You haven't created any pages!</label>
                     </div>
                 </div>
             </div>
@@ -77,6 +86,14 @@
         },
 
         methods: {
+            deletePage: function (pageId) {
+                axios.delete(`/api/page/${pageId}`).then((res) => {
+                    this.getCreatedPages()
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
             getMemberPages(page) {
                 if (typeof page == 'undefined') {
                     page = 1;

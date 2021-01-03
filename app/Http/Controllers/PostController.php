@@ -112,9 +112,15 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($pageId, $postId)
     {
-        //
+        $post = Post::find($postId);
+
+        if(!$post->user_id == Auth::user()->id) {
+            abort('400');
+        };
+
+        return $post->delete();
     }
 
     public function view($pageId, $postId) 
