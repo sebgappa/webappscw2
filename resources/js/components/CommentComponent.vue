@@ -34,6 +34,10 @@
                     <div class="pt-2">
                         <pagination :data="comments" v-on:pagination-change-page="getComments"></pagination>
                     </div>
+
+                     <div v-if="comments.data.length == 0">
+                        <label>This post doesn't have any comments yet!</label>
+                    </div>
                 </div>
             </div>
         </div>

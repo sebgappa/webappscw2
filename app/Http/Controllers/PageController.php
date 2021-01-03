@@ -99,7 +99,13 @@ class PageController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $page = Page::find($id);
+
+        if(!$page->user_id == Auth::user()->id) {
+            abort('400');
+        };
+
+        return $page->delete();
     }
 
     public function getPageUsers($pageId) {

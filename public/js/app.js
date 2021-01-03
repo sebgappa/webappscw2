@@ -1969,27 +1969,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user'],
   data: function data() {
@@ -2011,23 +1990,10 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
-    },
-    getComments: function getComments(page) {
-      var _this2 = this;
-
-      if (typeof page == 'undefined') {
-        page = 1;
-      }
-
-      axios.get("/api/user/".concat(this.user.id, "/comment?page=") + page).then(function (res) {
-        _this2.comments = res.data;
-      })["catch"](function (error) {
-        console.log(error);
-      });
     }
   },
   mounted: function mounted() {
-    this.getPosts(), this.getComments();
+    this.getPosts();
   }
 });
 
@@ -2042,6 +2008,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2332,6 +2302,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId'],
   data: function data() {
@@ -2341,28 +2320,37 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getMemberPages: function getMemberPages(page) {
+    deletePage: function deletePage(pageId) {
       var _this = this;
 
-      if (typeof page == 'undefined') {
-        page = 1;
-      }
-
-      axios.get("/api/user/".concat(this.userId, "/page/member?page=") + page).then(function (res) {
-        _this.memberPages = res.data;
+      axios["delete"]("/api/page/".concat(pageId)).then(function (res) {
+        _this.getCreatedPages();
       })["catch"](function (error) {
         console.log(error);
       });
     },
-    getCreatedPages: function getCreatedPages(page) {
+    getMemberPages: function getMemberPages(page) {
       var _this2 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
+      axios.get("/api/user/".concat(this.userId, "/page/member?page=") + page).then(function (res) {
+        _this2.memberPages = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getCreatedPages: function getCreatedPages(page) {
+      var _this3 = this;
+
+      if (typeof page == 'undefined') {
+        page = 1;
+      }
+
       axios.get("/api/user/".concat(this.userId, "/page/creator?page=") + page).then(function (res) {
-        _this2.createdPages = res.data;
+        _this3.createdPages = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2440,8 +2428,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['pageId'],
+  props: ['pageId', 'userId'],
   data: function data() {
     return {
       page: '',
@@ -2450,37 +2447,46 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getPageUsers: function getPageUsers(page) {
+    deletePost: function deletePost(postId) {
       var _this = this;
+
+      axios["delete"]("/api/page/".concat(this.pageId, "/post/").concat(postId)).then(function (res) {
+        _this.getPosts();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getPageUsers: function getPageUsers(page) {
+      var _this2 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
       axios.get("/api/page/".concat(this.pageId, "/user?page=") + page).then(function (res) {
-        _this.users = res.data;
+        _this2.users = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     getPage: function getPage() {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get("/api/page/".concat(this.pageId)).then(function (res) {
-        _this2.page = res.data;
+        _this3.page = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     getPosts: function getPosts(page) {
-      var _this3 = this;
+      var _this4 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
       axios.get("/api/page/".concat(this.pageId, "/post?page=") + page).then(function (res) {
-        _this3.posts = res.data;
+        _this4.posts = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -38824,61 +38830,13 @@ var render = function() {
                     })
                   ],
                   1
-                )
-              ],
-              2
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-8 pt-3" }, [
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary dropdown-toggle",
-                attrs: {
-                  type: "button",
-                  "data-toggle": "collapse",
-                  "data-target": "#commentsList",
-                  "aria-expanded": "false",
-                  "aria-controls": "commentsList"
-                }
-              },
-              [
-                _vm._v(
-                  "\n                    View comments\n                    "
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "collapse", attrs: { id: "commentsList" } },
-              [
-                _vm._l(_vm.comments.data, function(comment) {
-                  return _c("div", { key: comment.id }, [
-                    _c("div", { staticClass: "pt-3" }, [
-                      _c("div", { staticClass: "card" }, [
-                        _c("div", { staticClass: "card-body" }, [
-                          _c("p", { staticClass: "card-text" }, [
-                            _vm._v(" " + _vm._s(comment.body) + " ")
-                          ])
-                        ])
-                      ])
-                    ])
-                  ])
-                }),
+                ),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "pt-2" },
-                  [
-                    _c("pagination", {
-                      attrs: { data: _vm.comments },
-                      on: { "pagination-change-page": _vm.getComments }
-                    })
-                  ],
-                  1
-                )
+                _vm.posts.data.length == 0
+                  ? _c("div", [
+                      _c("label", [_vm._v("You haven't created any posts!")])
+                    ])
+                  : _vm._e()
               ],
               2
             )
@@ -39031,7 +38989,15 @@ var render = function() {
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _vm.comments.data.length == 0
+              ? _c("div", [
+                  _c("label", [
+                    _vm._v("This post doesn't have any comments yet!")
+                  ])
+                ])
+              : _vm._e()
           ],
           2
         )
@@ -39315,7 +39281,7 @@ var render = function() {
           staticClass: "btn btn-success",
           attrs: { href: "/page/create", role: "button" }
         },
-        [_vm._v("\n            Create a new page\n        ")]
+        [_vm._v("\n            Create a new page +\n        ")]
       )
     ]),
     _vm._v(" "),
@@ -39382,7 +39348,13 @@ var render = function() {
               })
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.memberPages.data.length == 0
+            ? _c("div", [
+                _c("label", [_vm._v("You're not a member of any pages!")])
+              ])
+            : _vm._e()
         ],
         2
       )
@@ -39428,6 +39400,19 @@ var render = function() {
                         attrs: { href: "/pages/" + page.id }
                       },
                       [_vm._v("Go to page")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger",
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePage(page.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Delete page")]
                     )
                   ])
                 ])
@@ -39445,7 +39430,13 @@ var render = function() {
               })
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.createdPages.data.length == 0
+            ? _c("div", [
+                _c("label", [_vm._v("You haven't created any pages!")])
+              ])
+            : _vm._e()
         ],
         2
       )
@@ -39513,7 +39504,22 @@ var render = function() {
                       }
                     },
                     [_vm._v("Go to post")]
-                  )
+                  ),
+                  _vm._v(" "),
+                  post.user_id == _vm.userId
+                    ? _c(
+                        "a",
+                        {
+                          staticClass: "btn btn-danger",
+                          on: {
+                            click: function($event) {
+                              return _vm.deletePost(post.id)
+                            }
+                          }
+                        },
+                        [_vm._v("Delete post")]
+                      )
+                    : _vm._e()
                 ])
               ])
             ])
@@ -39529,7 +39535,11 @@ var render = function() {
               })
             ],
             1
-          )
+          ),
+          _vm._v(" "),
+          _vm.posts.data.length == 0
+            ? _c("div", [_c("label", [_vm._v("No posts yet!")])])
+            : _vm._e()
         ],
         2
       ),
@@ -39593,7 +39603,11 @@ var render = function() {
                 })
               ],
               1
-            )
+            ),
+            _vm._v(" "),
+            _vm.users.data.length == 0
+              ? _c("div", [_c("label", [_vm._v("No members yet!")])])
+              : _vm._e()
           ])
         ])
       ])

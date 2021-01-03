@@ -47,30 +47,9 @@
                             <div class="pt-2">
                                 <pagination :data="posts" v-on:pagination-change-page="getPosts"></pagination>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-8 pt-3">
-                        <button 
-                            class="btn btn-secondary dropdown-toggle" 
-                            type="button" 
-                            data-toggle="collapse" 
-                            data-target="#commentsList" 
-                            aria-expanded="false" 
-                            aria-controls="commentsList">
-                        View comments
-                        </button>
-                        <div class="collapse" id="commentsList">
-                            <div v-for="comment in comments.data" :key="comment.id">
-                                <div class="pt-3">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <p class="card-text"> {{ comment.body }} </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="pt-2">
-                                <pagination :data="comments" v-on:pagination-change-page="getComments"></pagination>
+
+                            <div v-if="posts.data.length == 0">
+                                <label>You haven't created any posts!</label>
                             </div>
                         </div>
                     </div>
@@ -101,23 +80,11 @@
                 }).catch((error) => {
                     console.log(error)
                 })
-            },
-            getComments(page) {
-                if (typeof page == 'undefined') {
-                    page = 1;
-                }
-
-                axios.get(`/api/user/${this.user.id}/comment?page=` + page).then((res) => {
-                    this.comments = res.data;
-                }).catch((error) => {
-                    console.log(error)
-                })
             }
         },
 
         mounted() {
-            this.getPosts(),
-            this.getComments()
+            this.getPosts()
         }
     }
 </script>
