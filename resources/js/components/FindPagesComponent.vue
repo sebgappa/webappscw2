@@ -10,7 +10,8 @@
                                 </div>
                                 <p class="card-text"> {{ page.description }} </p>
                                 <p class="card-text font-weight-bold font-italic"> Created by {{ page.username }} </p>
-                                <a v-on:click="joinPage(page.id)" class="btn btn-success">Join page</a>
+                                <a v-on:click="joinPage(page.id)" class="btn btn-success btn-sm">Join page</a>
+                                <a v-on:click="deletePage(page.id)" v-if="admin" class="btn btn-danger btn-sm">Delete page</a>
                         </div>
                     </div>
                 </div>
@@ -29,11 +30,20 @@
         props:['userId'],
         data() {
             return {
+                admin: false,
                 pages: {},
             }
         },
 
         methods: {
+            deletePage: function (pageId) {
+                axios.delete(`/api/page/${pageId}`).then((res) => {
+                    this.getPages()
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
             getPages(page) {
                 if (typeof page == 'undefined') {
                     page = 1;
@@ -48,15 +58,24 @@
 
             joinPage(pageId) {
                 axios.put(`/api/user/${this.userId}/page/${pageId}/join`).then((res) => {
-                    window.location.href = `/home`
+                    this.getPages()
                 }).catch((error) => {
                     console.log(error);
+                })
+            },
+
+            isAdmin() {
+                axios.get(`/api/user/admin`).then((res) => {
+                    this.admin = res.data
+                }).catch((error) => {
+                    console.log(error)
                 })
             }
         },
 
         mounted() {
             this.getPages();
+            this.isAdmin();
         }
     }
 </script>

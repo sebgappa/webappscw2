@@ -83,29 +83,6 @@ class PageController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -115,9 +92,9 @@ class PageController extends Controller
     {
         $page = Page::find($id);
 
-        if(!$page->user_id == Auth::user()->id) {
-            abort('400');
-        };
+        if(($page->user_id != Auth::user()->id) && (Auth::user()->admin()->exists() == false)) {
+            abort('401');
+        }
 
         return $page->delete();
     }
@@ -134,7 +111,7 @@ class PageController extends Controller
         $page = Page::where('id', $id)->get()->first();
 
         if($page == null) {
-            abort('404');
+            abort(404);
         };
 
         return view('page.show', ['pageId' => $id]);

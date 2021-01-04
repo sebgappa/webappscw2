@@ -23,11 +23,14 @@
                 <div class="collapse show" id="commentsList">
                     <div v-for="comment in comments.data" :key="comment.id">
                         <div class="pt-3">
-                            <div class="card card-header">
-                                {{ comment.username }}
-                            </div>
-                            <div class="card card-body">
-                                {{ comment.body }}
+                            <div class="card">
+                                <div class="card-header">
+                                    {{ comment.username }}
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text"> {{ comment.body }} </p>
+                                    <a v-on:click="deleteComment(comment.id)" v-if="comment.user_id == userId || admin" class="btn btn-danger btn-sm">Delete Comment</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -49,6 +52,7 @@
         props:['userId', 'postId'],
         data() {
             return {
+                admin: false,
                 comments: {},
 
                 form: new Form({
@@ -58,6 +62,14 @@
         },
 
         methods: {
+            deleteComment: function (commentId) {
+                axios.delete(`/api/post/${this.postId}/comment/${commentId}`).then((res) => {
+                    this.getComments()
+                }).catch((error) => {
+                    console.log(error)
+                })
+            },
+
             getComments(page) {
                 if (typeof page == 'undefined') {
                     page = 1;
@@ -81,11 +93,20 @@
                 }).catch((error) => {
                     this.form.errors.record(error.response.data.errors)
                 })
+            },
+
+            isAdmin() {
+                axios.get(`/api/user/admin`).then((res) => {
+                    this.admin = res.data
+                }).catch((error) => {
+                    console.log(error)
+                })
             }
         },
 
         mounted() {
             this.getComments()
+            this.isAdmin()
         }
     }
 </script>

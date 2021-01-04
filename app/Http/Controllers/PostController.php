@@ -55,7 +55,7 @@ class PostController extends Controller
     public function store(Request $request, $pageId)
     {
         $this->validate($request, [
-            'body' => 'required|max:200',
+            'body' => 'required',
             'title' => 'required|max:100',
             'tag' => 'required|max:20',
         ],
@@ -113,29 +113,6 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -145,9 +122,9 @@ class PostController extends Controller
     {
         $post = Post::find($postId);
 
-        if(!$post->user_id == Auth::user()->id) {
+        if(($post->user_id != Auth::user()->id) && (Auth::user()->admin()->exists() == false)) {
             abort('401');
-        };
+        }
 
         return $post->delete();
     }
