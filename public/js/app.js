@@ -2362,7 +2362,8 @@ __webpack_require__.r(__webpack_exports__);
       data.append('body', this.form.body);
       data.append('tag', this.form.tag);
       data.append('_method', 'put');
-      axios.post("/api/page/".concat(this.pageId, "/post/").concat(this.postId), data).then(function (res) {//window.location.href = `/page/${this.pageId}/post/${this.postId}`
+      axios.post("/api/page/".concat(this.pageId, "/post/").concat(this.postId), data).then(function (res) {
+        window.location.href = "/page/".concat(_this.pageId, "/post/").concat(_this.postId);
       })["catch"](function (error) {
         _this.form.errors.record(error.response.data.errors);
       });
@@ -2454,19 +2455,17 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     joinPage: function joinPage(pageId) {
-      var _this3 = this;
-
       axios.put("/api/user/".concat(this.userId, "/page/").concat(pageId, "/join")).then(function (res) {
-        _this3.getPages();
+        window.location.href = "/home";
       })["catch"](function (error) {
         console.log(error);
       });
     },
     isAdmin: function isAdmin() {
-      var _this4 = this;
+      var _this3 = this;
 
       axios.get("/api/user/admin").then(function (res) {
-        _this4.admin = res.data;
+        _this3.admin = res.data;
       })["catch"](function (error) {
         console.log(error);
       });

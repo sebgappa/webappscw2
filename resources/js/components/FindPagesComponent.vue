@@ -58,7 +58,7 @@
 
             joinPage(pageId) {
                 axios.put(`/api/user/${this.userId}/page/${pageId}/join`).then((res) => {
-                    this.getPages()
+                    window.location.href = `/home`
                 }).catch((error) => {
                     console.log(error);
                 })

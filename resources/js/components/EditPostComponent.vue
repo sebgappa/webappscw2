@@ -53,7 +53,7 @@
                 data.append('_method', 'put')
 
                 axios.post(`/api/page/${this.pageId}/post/${this.postId}`, data).then((res) => {
-                    //window.location.href = `/page/${this.pageId}/post/${this.postId}`
+                    window.location.href = `/page/${this.pageId}/post/${this.postId}`
                 }).catch((error) => {
                     this.form.errors.record(error.response.data.errors)
                 })
