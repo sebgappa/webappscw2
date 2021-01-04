@@ -35,7 +35,7 @@
                                     </div>
                                     <p class="card-text"> {{ page.description }} </p>
                                     <p class="card-text font-weight-bold font-italic"> Created by {{ page.username }} </p>
-                                    <a :href="'/page/' + page.id" class="btn btn-primary">Go to page</a>
+                                    <a :href="'/page/' + page.id" class="btn btn-primary btn-sm">Go to page</a>
                                 </div>
                             </div>
                         </div>
@@ -69,8 +69,8 @@
                                         <span class="badge badge-info text-white">{{ page.tag.name }}</span>
                                     </div>
                                     <p class="card-text"> {{ page.description }} </p>
-                                    <a :href="'/page/' + page.id" class="btn btn-primary">Go to page</a>
-                                    <a v-on:click="deletePage(page.id)" class="btn btn-danger">Delete page</a>
+                                    <a :href="'/page/' + page.id" class="btn btn-primary btn-sm">Go to page</a>
+                                    <a v-on:click="deletePage(page.id)" class="btn btn-danger btn-sm">Delete page</a>
                                 </div>
                             </div>
                         </div>

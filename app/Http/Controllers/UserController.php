@@ -68,4 +68,12 @@ class UserController extends Controller
 
         $user->pages()->save($page);
     }
+
+    public function admin() {
+        if(Auth::user()->admin()->exists()) {
+            return response()->json(true, '200');
+        };
+
+        return response()->json(false, '200');
+    }
 }

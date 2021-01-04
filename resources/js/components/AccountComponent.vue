@@ -13,11 +13,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Email: {{user.email}}</li>
-                                <li class="list-group-item">Birthday: June 24 1999</li>
                             </ul>
-                            <div class="card-body">
-                                <a href="#" class="btn btn-primary">Change information</a>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -39,7 +35,7 @@
                                         <div class="card-body">
                                             <h5 class="card-title">{{ post.title}}</h5>
                                             <p class="card-text"> {{ post.synopsis }} </p>
-                                            <a :href="'/page/' + post.page_id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
+                                            <a :href="'/page/' + post.page_id + '/post/' + post.id" class="btn btn-primary btn-sm">Go to post</a>
                                         </div>
                                     </div>
                                 </div>

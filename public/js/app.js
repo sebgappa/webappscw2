@@ -1965,10 +1965,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user', 'dog'],
   data: function data() {
@@ -2054,10 +2050,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId', 'postId'],
   data: function data() {
     return {
+      admin: false,
       comments: {},
       form: new Form({
         body: ''
@@ -2065,36 +2065,55 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    getComments: function getComments(page) {
+    deleteComment: function deleteComment(commentId) {
       var _this = this;
+
+      axios["delete"]("/api/post/".concat(this.postId, "/comment/").concat(commentId)).then(function (res) {
+        _this.getComments();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getComments: function getComments(page) {
+      var _this2 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
       axios.get("/api/post/".concat(this.postId, "/comment?page=") + page).then(function (res) {
-        _this.comments = res.data;
+        _this2.comments = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     createComment: function createComment() {
-      var _this2 = this;
+      var _this3 = this;
 
       var data = new FormData();
       data.append('body', this.form.body);
       data.append('user_id', this.userId);
       axios.post("/api/post/".concat(this.postId, "/comment"), data).then(function (res) {
-        _this2.form.reset();
+        _this3.form.reset();
 
-        _this2.getComments();
+        _this3.getComments();
       })["catch"](function (error) {
-        _this2.form.errors.record(error.response.data.errors);
+        _this3.form.errors.record(error.response.data.errors);
+      });
+    },
+    isAdmin: function isAdmin() {
+      var _this4 = this;
+
+      axios.get("/api/user/admin").then(function (res) {
+        _this4.admin = res.data;
+      })["catch"](function (error) {
+        console.log(error);
       });
     }
   },
   mounted: function mounted() {
     this.getComments();
+    this.isAdmin();
   }
 });
 
@@ -2306,30 +2325,52 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['userId'],
   data: function data() {
     return {
+      admin: false,
       pages: {}
     };
   },
   methods: {
-    getPages: function getPages(page) {
+    deletePage: function deletePage(pageId) {
       var _this = this;
+
+      axios["delete"]("/api/page/".concat(pageId)).then(function (res) {
+        _this.getPages();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    getPages: function getPages(page) {
+      var _this2 = this;
 
       if (typeof page == 'undefined') {
         page = 1;
       }
 
       axios.get("/api/page?page=" + page).then(function (res) {
-        _this.pages = res.data;
+        _this2.pages = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
     },
     joinPage: function joinPage(pageId) {
+      var _this3 = this;
+
       axios.put("/api/user/".concat(this.userId, "/page/").concat(pageId, "/join")).then(function (res) {
-        window.location.href = "/home";
+        _this3.getPages();
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    isAdmin: function isAdmin() {
+      var _this4 = this;
+
+      axios.get("/api/user/admin").then(function (res) {
+        _this4.admin = res.data;
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2337,6 +2378,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.getPages();
+    this.isAdmin();
   }
 });
 
@@ -2574,6 +2616,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: '',
+      admin: false,
       posts: {},
       users: {}
     };
@@ -2622,12 +2665,22 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    isAdmin: function isAdmin() {
+      var _this5 = this;
+
+      axios.get("/api/user/admin").then(function (res) {
+        _this5.admin = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
     this.getPage();
     this.getPosts();
     this.getPageUsers();
+    this.isAdmin();
   }
 });
 
@@ -38893,14 +38946,8 @@ var render = function() {
                 _c("ul", { staticClass: "list-group list-group-flush" }, [
                   _c("li", { staticClass: "list-group-item" }, [
                     _vm._v("Email: " + _vm._s(_vm.user.email))
-                  ]),
-                  _vm._v(" "),
-                  _c("li", { staticClass: "list-group-item" }, [
-                    _vm._v("Birthday: June 24 1999")
                   ])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
+                ])
               ]
             )
           ])
@@ -38943,7 +38990,7 @@ var render = function() {
                           _c(
                             "a",
                             {
-                              staticClass: "btn btn-primary",
+                              staticClass: "btn btn-primary btn-sm",
                               attrs: {
                                 href:
                                   "/page/" + post.page_id + "/post/" + post.id
@@ -38983,18 +39030,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("a", { staticClass: "btn btn-primary", attrs: { href: "#" } }, [
-        _vm._v("Change information")
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -39097,20 +39133,35 @@ var render = function() {
             _vm._l(_vm.comments.data, function(comment) {
               return _c("div", { key: comment.id }, [
                 _c("div", { staticClass: "pt-3" }, [
-                  _c("div", { staticClass: "card card-header" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(comment.username) +
-                        "\n                        "
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "card card-body" }, [
-                    _vm._v(
-                      "\n                            " +
-                        _vm._s(comment.body) +
-                        "\n                        "
-                    )
+                  _c("div", { staticClass: "card" }, [
+                    _c("div", { staticClass: "card-header" }, [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(comment.username) +
+                          "\n                            "
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("p", { staticClass: "card-text" }, [
+                        _vm._v(" " + _vm._s(comment.body) + " ")
+                      ]),
+                      _vm._v(" "),
+                      comment.user_id == _vm.userId || _vm.admin
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "btn btn-danger btn-sm",
+                              on: {
+                                click: function($event) {
+                                  return _vm.deleteComment(comment.id)
+                                }
+                              }
+                            },
+                            [_vm._v("Delete Comment")]
+                          )
+                        : _vm._e()
+                    ])
                   ])
                 ])
               ])
@@ -39534,7 +39585,7 @@ var render = function() {
                 _c(
                   "a",
                   {
-                    staticClass: "btn btn-success",
+                    staticClass: "btn btn-success btn-sm",
                     on: {
                       click: function($event) {
                         return _vm.joinPage(page.id)
@@ -39542,7 +39593,22 @@ var render = function() {
                     }
                   },
                   [_vm._v("Join page")]
-                )
+                ),
+                _vm._v(" "),
+                _vm.admin
+                  ? _c(
+                      "a",
+                      {
+                        staticClass: "btn btn-danger btn-sm",
+                        on: {
+                          click: function($event) {
+                            return _vm.deletePage(page.id)
+                          }
+                        }
+                      },
+                      [_vm._v("Delete page")]
+                    )
+                  : _vm._e()
               ])
             ])
           ])
@@ -39663,7 +39729,7 @@ var render = function() {
                     _c(
                       "a",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-primary btn-sm",
                         attrs: { href: "/page/" + page.id }
                       },
                       [_vm._v("Go to page")]
@@ -39740,7 +39806,7 @@ var render = function() {
                     _c(
                       "a",
                       {
-                        staticClass: "btn btn-primary",
+                        staticClass: "btn btn-primary btn-sm",
                         attrs: { href: "/page/" + page.id }
                       },
                       [_vm._v("Go to page")]
@@ -39749,7 +39815,7 @@ var render = function() {
                     _c(
                       "a",
                       {
-                        staticClass: "btn btn-danger",
+                        staticClass: "btn btn-danger btn-sm",
                         on: {
                           click: function($event) {
                             return _vm.deletePage(page.id)
@@ -39852,7 +39918,7 @@ var render = function() {
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-primary",
+                      staticClass: "btn btn-primary btn-sm",
                       attrs: {
                         href: "/page/" + _vm.page.id + "/post/" + post.id
                       }
@@ -39860,11 +39926,11 @@ var render = function() {
                     [_vm._v("Go to post")]
                   ),
                   _vm._v(" "),
-                  post.user_id == _vm.userId
+                  post.user_id == _vm.userId || _vm.admin
                     ? _c(
                         "a",
                         {
-                          staticClass: "btn btn-danger",
+                          staticClass: "btn btn-danger btn-sm",
                           on: {
                             click: function($event) {
                               return _vm.deletePost(post.id)

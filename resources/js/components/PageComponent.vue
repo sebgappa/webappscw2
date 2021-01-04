@@ -13,8 +13,8 @@
                                 </div>
                                 <p class="card-text"> {{ post.synopsis }} </p>
                                 <p class="card-text font-weight-bold font-italic"> Posted by {{ post.username}} </p>
-                                <a :href="'/page/' + page.id + '/post/' + post.id" class="btn btn-primary">Go to post</a>
-                                <a v-on:click="deletePost(post.id)" v-if="post.user_id == userId" class="btn btn-danger">Delete post</a>
+                                <a :href="'/page/' + page.id + '/post/' + post.id" class="btn btn-primary btn-sm">Go to post</a>
+                                <a v-on:click="deletePost(post.id)" v-if="post.user_id == userId || admin" class="btn btn-danger btn-sm">Delete post</a>
                             </div>
                         </div>
                     </div>
@@ -71,6 +71,7 @@
         data() {
             return {
                 page: '',
+                admin: false,
                 posts: {},
                 users: {}
             }
@@ -116,12 +117,21 @@
                     console.log(error)
                 })
             },
+
+            isAdmin() {
+                axios.get(`/api/user/admin`).then((res) => {
+                    this.admin = res.data
+                }).catch((error) => {
+                    console.log(error)
+                })
+            }
         },
 
         mounted() {
             this.getPage();
             this.getPosts();
             this.getPageUsers();
+            this.isAdmin();
         }
     }
 </script>
