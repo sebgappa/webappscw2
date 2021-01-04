@@ -25,4 +25,6 @@ class Post extends Model
     public function image() {
         return $this->hasOne('App\Image');
     }
+
+    protected $fillable = ['title', 'body', 'synopsis'];
 }

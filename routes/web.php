@@ -39,5 +39,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/page/{pageId}/post/{postId}', 'PostController@view')->name('post.show');
 
+    Route::get('/page/{pageId}/post/{postId}/edit', 'PostController@edit')->name('post.edit');
+
     Route::get('/page/{id}', 'PageController@view')->name('page.show');
 });

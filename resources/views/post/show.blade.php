@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <post-component :post-id="{{ $postId }}" :page-id="{{ $pageId }}"></post-component>
+            <post-component :post-id="{{ $postId }}" :page-id="{{ $pageId }}" :user-id="{{ Auth::user()->id }}"></post-component>
         </div>
     </div>
     <div class="row justify-content-center">
