@@ -1965,10 +1965,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['user', 'dog'],
   data: function data() {
     return {
+      admin: false,
       posts: {},
       comments: {}
     };
@@ -1986,10 +1988,19 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    isAdmin: function isAdmin() {
+      var _this2 = this;
+
+      axios.get("/api/user/admin").then(function (res) {
+        _this2.admin = res.data;
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
   mounted: function mounted() {
-    this.getPosts();
+    this.getPosts(), this.isAdmin();
   }
 });
 
@@ -39032,7 +39043,13 @@ var render = function() {
                 _c("ul", { staticClass: "list-group list-group-flush" }, [
                   _c("li", { staticClass: "list-group-item" }, [
                     _vm._v("Email: " + _vm._s(_vm.user.email))
-                  ])
+                  ]),
+                  _vm._v(" "),
+                  _vm.admin
+                    ? _c("li", { staticClass: "badge bg-primary text-white" }, [
+                        _vm._v("Admin")
+                      ])
+                    : _vm._e()
                 ])
               ]
             )

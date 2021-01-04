@@ -13,6 +13,7 @@
                             </div>
                             <ul class="list-group list-group-flush">
                                 <li class="list-group-item">Email: {{user.email}}</li>
+                                <li v-if="admin" class="badge bg-primary text-white">Admin</li>
                             </ul>
                         </div>
                     </div>
@@ -60,6 +61,7 @@
         props:['user', 'dog'],
         data() {
             return {
+                admin: false,
                 posts: {},
                 comments: {}
             }
@@ -76,11 +78,20 @@
                 }).catch((error) => {
                     console.log(error)
                 })
+            },
+
+            isAdmin() {
+                axios.get(`/api/user/admin`).then((res) => {
+                    this.admin = res.data
+                }).catch((error) => {
+                    console.log(error)
+                })
             }
         },
 
         mounted() {
-            this.getPosts()
+            this.getPosts(),
+            this.isAdmin()
         }
     }
 </script>
