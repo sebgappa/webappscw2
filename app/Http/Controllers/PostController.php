@@ -80,6 +80,28 @@ class PostController extends Controller
         return response()->json($post->id, '200');
     }
 
+    public function update(Request $request, $pageId, $id) {
+        $post = Post::find($id);
+
+        $this->validate($request, [
+            'body' => 'required',
+            'title' => 'required|max:100',
+            'tag' => 'required|max:20',
+        ],
+        [
+            'body.required' => 'The page body must not be empty.',
+            'title.required' => 'The page title must not be empty.',
+            'tag.required' => 'The page needs a tag.',
+        ]);
+
+        $post->body = $request->body;
+        $post->title = $request->title;
+        $post->synopsis = substr($request->body, 0, 150) . '...';
+        $post->tag()->name = $request->tag;
+        
+        $post->save();
+    }
+
     public function saveImage(Request $request, $postId) {
         if ($request->hasFile('image')) {
             if ($request->file('image')->isValid()) {
@@ -107,7 +129,8 @@ class PostController extends Controller
     {
         $post = Post::where(['id' => $id, 'page_id' => $pageId])->get()->first();
         $post->username = User::find($post->user_id)->name;
-        $post->image; 
+        $post->image;
+        $post->tag; 
         
         return response()->json($post, '200');
     }
@@ -138,5 +161,15 @@ class PostController extends Controller
         };
 
         return view('post.show', ['postId' => $postId, 'pageId' => $pageId]);
+    }
+
+    public function edit($pageId, $postId) {
+        $post = Post::where(['id' => $postId, 'page_id' => $pageId])->get()->first();
+
+        if ($post == null) {
+            abort(404);
+        };
+
+        return view('post.edit', ['pageId' => $pageId, 'postId' => $postId]);
     }
 }

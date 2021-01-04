@@ -11,13 +11,14 @@
                     </div>
                 </div>
                 <p class="card-text pt-3 font-weight-bold font-italic"> Posted by {{ post.username}} </p>
+                <a :href="'/page/' + pageId + '/post/' + postId + '/edit'" v-if="post.user_id == userId" class="btn btn-primary btn-sm">Edit Post</a>
             </div>
         </div>
 </template>
 
 <script>
     export default {
-        props:['postId', 'pageId'],
+        props:['postId', 'pageId', 'userId'],
         data() {
             return {
                 post: '',
